@@ -1,0 +1,63 @@
+<div class="card">
+  <div class="card-header">
+    <h4 class="card-title title-darkslateblue bold">SHARING MANAGE</h4>
+  </div>
+  <div class="card-body">
+    <h5 class="title-darkslateblue">ADD SHARING PACKAGE</h5>
+    <div class="row justify-content-center">
+      <div class="col-12 col-sm-8">
+        <form (ngSubmit)="addLendingPackage()" [formGroup]="addLendingForm">          
+          <div class="form-group row">
+            <label for="package" class="col-12 col-sm-3 col-form-label title-darkslateblue">Package</label>
+            <div class="col-12 col-sm-9">
+              <input id="package" type="text" formControlName="amount" class="form-control">
+              <p *ngIf="addLendingForm.get('amount').touched && addLendingForm.get('amount').hasError('min')" class="error">
+                Min value is $50
+              </p>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-12 col-sm-3 col-form-label title-darkslateblue" for="wallet">Select wallet</label>
+            <div class="col-12 col-sm-9">
+              <select formControlName="wallet_name" name="wallet" id="wallet" class="form-control">
+                <option value="">--Choose a wallet--</option>
+                <option *ngFor="let w of wallets" [value]="w.name">{{w.title}}</option>
+              </select>
+            </div>
+            <div *ngIf="selectedWallet" class="col-12 col-sm-9 offset-sm-3">
+              <ng-container>
+                <p>
+                  <span>Wallet: </span> <span>{{selectedWallet.title}}</span>
+                </p>
+                <p>
+                  <span>Balance: </span> <span>{{selectedWallet.balance | number: '.8'}}</span>
+                </p>
+                <p>
+                  <span *ngIf="!selectedWallet.isInsufficient">Subtract: {{selectedWallet.subtract_amount | number: '.8'}}</span>
+                  <span class="error" *ngIf="selectedWallet.isInsufficient">Insufficient Balance</span>
+                </p>
+              </ng-container>
+              
+            </div>
+          </div>          
+          <div class="form-group row">
+            <label for="otp_code" class="col-12 col-sm-3 col-form-label title-darkslateblue">Admin OTP</label>
+            <div class="col-12 col-sm-3">
+              <input formControlName="otp_code" id="otp_code" type="number" class="form-control">
+            </div>
+            <div class="col-12 col-sm-9 offset-sm-3">
+              <p *ngIf="addLendingForm.get('otp_code').touched && addLendingForm.get('otp_code').hasError('required')" class="error">
+                This field is required
+              </p>
+            </div>
+          </div>
+          <div class="row justify-content-center">
+            <div class="col-12 col-sm-3">
+              <button [disabled]="addLendingForm.invalid || (selectedWallet && selectedWallet.isInsufficient)" [appLoading]="promise" type="submit" class="btn btn-primary btn-fill btn-block btn-darkslateblue">SUBMIT</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,44 @@
+.statistic {
+  .card {
+    margin-bottom: 15px;
+    .box-stat {
+      display: flex;      
+      .icon {
+        padding: 10px;        
+        display: flex;
+        img {
+          margin: auto;
+          height: 60px;
+          max-height: 100%;
+        }
+      }
+
+      .content {
+        padding: 10px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        .value {
+          font-size: 28px;
+          font-weight: 600;    
+          flex: 1;
+          margin-bottom: 20px;
+        }
+
+        .title {
+          font-size: 16px;
+          text-transform: uppercase;
+          font-weight: 500;
+          margin-bottom: 15px;
+        }
+
+        .currency {
+          text-align: right;
+          font-size: 18px;
+          font-weight: 500;
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+}

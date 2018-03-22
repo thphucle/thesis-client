@@ -1,0 +1,268 @@
+<div>
+
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">{{walletTitle}} WALLET</h4>
+    </div>
+    <div class="card-body">
+      <div class="toolbar">
+        <div class="row">
+          <div class="col">
+            <label>Balance: </label>
+            <span *ngIf="balance !== undefined">{{balance | number: '.8'}}</span>
+            <span *ngIf="balance == undefined">loading...</span>
+          </div>
+          <div class="col">
+            <div class="text-right">
+              <button *ngIf="isShowWithdrawBtn" (click)="withdrawBtnClick()" class="btn btn-danger btn-fill">WITHDRAW</button>
+              <button *ngIf="isShowTransferBtn" (click)="transferBtnClick()" class="btn btn-primary btn-fill">TRANSFER</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <app-filter (currentActiveChange)="filterDate($event)" (onReset)="filterDate($event)">
+      </app-filter>
+      <app-spinner-container name="wallet-list" group="wallet-list">
+        <div [class.active]="isShowTable" class="table-smooth">
+          <table #wallet class="table display responsive no-wrap table-striped" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Amount</th>
+                <th>Type</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Status</th>
+                <th>Created At</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of rows">
+                <td>
+                  <strong>#{{row.id | padZero: 5}}</strong>
+                </td>
+                <td>
+                  <span *ngIf="row.currency == 'usd'">{{row.amount | number: '.0-4'}}</span>
+                  <span *ngIf="row.currency != 'usd'">{{row.amount | number: '.8'}}</span>
+                </td>
+                <td>{{row.type}}</td>
+                <td>{{getFromUser(row)}}</td>
+                <td>{{getToUser(row)}}</td>
+                <td>
+                  <span class="badge" [ngClass]="{'badge-success': row.status == 'completed', 'badge-default': row.status == 'pending'}">{{row.status}}</span>
+                </td>
+                <td>
+                  <span>{{row.created_at | date: 'MM/dd/yyyy HH:mm:ss'}}</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </app-spinner-container>
+    </div>
+  </div>
+  
+  <div [class.hidden]="!isShowDeposit" class="card">
+    <div class="card-header">
+      <h4 class="card-title">DEPOSIT HISTORY</h4>
+    </div>
+    <div class="card-body">
+      <app-spinner-container name="bitdeal-deposit-list" group="bitdeal-deposit-list">
+        <table class="table display responsive no-wrap table-striped" datatable [dtOptions]="dtOptionsDeposit" [dtTrigger]="dtTriggerDeposit">
+          <thead>
+            <tr>
+              <th>Deposit ID</th>
+              <th>Transaction ID</th>
+              <th>Amount</th>
+              <th>Confirmations</th>
+              <th>Created At</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of deposits">
+              <td>
+                <strong>#{{row.id | padZero: 5}}</strong>
+              </td>
+              <td>
+                <span class="word-break">
+                  <a class="transaction-id" target="_blank" href="{{(row.currency == 'bitdeal' ? 'https://explorer.bitdeal.co.in/tx/' : 'https://blockexplorer.com/tx/') + row.tx_id}}">{{row.tx_id}}</a>
+                </span>
+              </td>
+              <td>
+                <span>{{row.amount | number: '.8'}}</span>
+              </td>
+              <td>
+                <span class="label" [ngClass]="{'label-success': row.status == 'completed', 'label-default': row.status == 'pending'}">{{row.status == 'pending' ? 0 : 1}}/1</span>
+              </td>
+              <td>
+                <span>{{row.created_at | date: 'MM/dd/yyyy HH:mm:ss'}}</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </app-spinner-container>
+    </div>
+  </div>
+  
+  <app-withdraw-cpn *ngIf="isShowWithdraw" [walletName]="walletName"></app-withdraw-cpn>
+  
+  <app-modal [(visible)]="isShowTransferPopup" classSize="modal-md" (visibleChange)="transferPopupChange($event)">
+    <h3 app-modal-header class="modal-title">TRANSFER</h3>
+    <div app-modal-body>
+      <div class="card no-border">
+        <div class="row justify-content-center">
+          <div class="col-12">
+            <form class="form-horizontal" (ngSubmit)="transfer()" [formGroup]="transferForm">
+              <div class="form-group row">
+                <label for="from-wallet" class="col-12 col-sm-3">From Wallet</label>
+                <div class="col-12 col-sm-9">
+                  <input type="text" formControlName="from_wallet" class="form-control">
+                </div>
+              </div>
+              <div *ngIf="modes.length > 1" class="form-group row">
+                <label for="mode" class="col-12 col-sm-3">Who</label>
+                <div class="col-12 col-sm-9">
+                  <select formControlName="mode" id="mode" class="form-control">
+                    <option *ngFor="let m of modes" [value]="m">{{m}}</option>
+                  </select>
+                </div>
+              </div>
+              <div *ngIf="(transferForm.controls.mode.value == 'me' && walletName == 'usd2') || walletName == 'ctu2' || walletName == 'usd1'"
+                class="form-group row">
+                <label for="to-wallet" class="col-12 col-sm-3">To Wallet</label>
+                <div class="col-12 col-sm-9">
+                  <input type="text" formControlName="to_wallet" class="form-control">
+                </div>
+              </div>
+              <div *ngIf="isShowTransferRemainLimit" class="form-group row">
+                <label for="to-wallet" class="col-12 col-sm-3">Remain Limit</label>
+                <div class="col-12 col-sm-9">
+                  <span *ngIf="transferRemainLimit !== undefined">{{transferRemainLimit | number: '.8'}} CTU</span>
+                  <span *ngIf="transferRemainLimit == undefined">Loading...</span>
+                </div>
+              </div>
+              <div *ngIf="transferForm.controls.mode.value == 'other' && (walletName == 'usd2' || walletName == 'ctu1' || walletName == 'btc')"
+                class="form-group row">
+                <label for="to_username" class="col-12 col-sm-3">To Username</label>
+                <div class="col-12 col-sm-9">
+                  <input formControlName="to_username" type="text" class="form-control">
+                  <p *ngIf="transferForm.get('to_username').touched && transferForm.get('to_username').hasError('required')" class="error">This field is required</p>
+                </div>
+              </div>
+              <div *ngIf="walletName == 'usd1' || (walletName == 'usd2' && transferForm.get('to_wallet').value == 'ctu2')" class="form-group row">
+                <label for="to_username" class="col-12 col-sm-3">CTU</label>
+                <div class="col-12 col-sm-9">
+                  <span *ngIf="ctuUsdExchange">{{transferForm.get('amount').value / ctuUsdExchange | number: '.8'}}</span>
+                  <span *ngIf="ctuUsdExchange == undefined">Loading CTU exchange rate...</span>
+                </div>
+              </div>
+              
+              <div class="form-group row">
+                <label for="amount" class="col-12 col-sm-3">Amount</label>
+                <div class="col-12 col-sm-9">
+                  <input formControlName="amount" id="amount" type="text" class="form-control">
+                  <p *ngIf="transferForm.get('amount').touched && transferForm.get('amount').hasError('required')" class="error">This field is required</p>
+                  <p *ngIf="transferForm.get('amount').touched && transferForm.get('amount').hasError('minAmount')" class="error">Minimum is {{getMinTransferAmount(walletName)}}</p>
+                </div>
+              </div>
+              <div *ngIf="walletName == 'usd2' && transferForm.controls.mode.value == 'other'" class="form-group row">
+                <label for="to-wallet" class="col-12 col-sm-3">Fee (1%)</label>
+                <div class="col-12 col-sm-9">
+                  <span>{{transferForm.get('amount').value * feeRate | number: '.8'}}</span>
+                </div>
+              </div>
+              <div *ngIf="(transferForm.controls.mode.value == 'other' && walletName == 'usd2') || walletName == 'ctu1' || walletName == 'btc'" class="form-group row">
+                <label for="otp_code" class="col-12 col-sm-3">OTP Code</label>
+                <div class="col-12 col-sm-9">
+                  <input formControlName="otp_code" id="otp_code" type="text" class="form-control">
+                  <p *ngIf="transferForm.get('otp_code').touched && transferForm.get('otp_code').hasError('required')" class="error">This field is required</p>
+                </div>
+              </div>
+              <div class="row justify-content-center">
+                <div class="col-12 col-sm-4">
+                  <button [disabled]="transferForm.invalid" [appLoading]="transferPromise" type="submit" class="btn btn-block btn-primary btn-fill">SUBMIT</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </app-modal>
+  
+  
+  <app-modal [(visible)]="isShowWithdrawPopup" size="modal-md" (visibleChange)="withdrawPopupChange($event)">
+    <h4 app-modal-header class="modal-title">WITHDRAW</h4>  
+    <div class="card no-border" app-modal-body>
+      <div class="row justify-content-center">
+        <div class="col-12">
+          <form class="form-horizontal" (ngSubmit)="withdraw()" [formGroup]="withdrawForm">
+            <div class="form-group row">
+              <label for="from-wallet" class="col-12 col-sm-3">From Wallet</label>
+              <div class="col-12 col-sm-9  col-md-6">
+                <input type="text" formControlName="wallet_name" class="form-control">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="to-wallet" class="col-12 col-sm-3">This Week Remain Limit</label>
+              <div class="col-12 col-sm-9">
+                <span *ngIf="limit.withdraw !== undefined">{{limit.withdraw[walletName] | number: '.8'}} {{walletName == 'btc' ? 'USD' : 'CTU'}}</span>
+                <span *ngIf="limit.withdraw === undefined">Loading...</span>
+              </div>
+            </div>
+            <ng-container *ngIf="limit.withdraw[walletName] > 0 && userIdentityStatus == 'verified'">
+              <div class="form-group row">
+                <label for="amount" class="col-12 col-sm-3">Amount {{walletInfo && walletInfo.sticker || ''}}</label>
+                <div class="col-12 col-sm-9 col-md-6">
+                  <input formControlName="amount" id="amount" type="text" class="form-control">
+                  <p *ngIf="withdrawForm.get('amount').touched && withdrawForm.get('amount').hasError('required')" class="error">This field is required</p>
+                  <p [class.invisible]="!(withdrawForm.get('amount').touched && withdrawForm.get('amount').hasError('minAmount'))" class="error">Minimum is {{getMinWithdrawAmount(walletName)}}</p>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="amount-usd" class="col-12 col-sm-3">Amount USD</label>
+                <div class="col-12 col-sm-9 col-md-6">
+                  <input formControlName="amount_usd" id="amount-usd" type="text" class="form-control">
+                  <p [class.invisible]="!(withdrawForm.get('amount_usd').touched && withdrawForm.get('amount_usd').hasError('required'))" class="error">This field is required</p>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="to-wallet" class="col-12 col-sm-3">Fee</label>
+                <div class="col-12 col-sm-9  col-md-6">
+                  <span>{{withdrawForm.get('fee').value | number: '.8'}} {{walletName == 'btc' ? 'BTC' : 'CTU'}}</span>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="address" class="col-12 col-sm-3">Wallet Address</label>
+                <div class="col-12 col-sm-9">
+                  <input formControlName="address" id="address" type="text" class="form-control">
+                  <p [class.invisible]="!(withdrawForm.get('address').touched && withdrawForm.get('address').hasError('required'))" class="error">This field is required</p>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="otp_code" class="col-12 col-sm-3">OTP Code</label>
+                <div class="col-12 col-sm-9  col-md-6">
+                  <input formControlName="otp_code" id="otp_code" type="text" class="form-control">
+                  <p [class.invisible]="!(withdrawForm.get('otp_code').touched && withdrawForm.get('otp_code').hasError('required'))" class="error">This field is required</p>
+                </div>
+              </div>
+              <div class="row justify-content-center">
+                <div class="col-12 col-sm-4">
+                  <button [disabled]="withdrawForm.invalid || limit.withdraw[walletName] <= 0" [appLoading]="withdrawPromise" type="submit" class="btn btn-block btn-primary btn-fill">SUBMIT</button>
+                </div>
+              </div>
+            </ng-container>
+  
+            <ng-container *ngIf="limit.withdraw[walletName] <= 0 && userIdentityStatus == 'verified'">
+              <p class="error">Your withdraw limit is over.</p>
+            </ng-container>
+
+            <ng-container *ngIf="userIdentityStatus !== 'verified'">
+              <p class="error">Your KYC is not verified yet. <a routerLink="/user/verify">See more</a></p>
+            </ng-container>
+          </form>
+        </div>
+      </div>
+    </div>
+  </app-modal>
+</div>

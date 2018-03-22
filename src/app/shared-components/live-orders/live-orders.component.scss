@@ -1,0 +1,75 @@
+.custom-table {
+  tbody td {
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+}
+
+.custom-fixed-table {
+  width: 100%;
+  thead,tbody,tr,td,th{
+    display:block;
+  }
+  tbody {
+    height: 320px;
+    overflow-y:auto;
+    width: 100%;
+    border-bottom: 1px solid #111111;
+    min-width: 410px;
+    tr {
+      overflow: auto;
+      border-bottom: 1px solid #ddd;
+      &.highlight {
+        background: #fff2a8 !important;
+      }
+    }
+
+    tr:hover {
+      border-bottom: double 1px #666;
+      td {
+        color: #666;
+        font-weight: 600;
+      }
+    }
+
+    td {
+      float:left;
+      width: 22%;
+      padding: 5px 10px;
+      font-size: 12px;
+    }
+
+    td:first-child {
+      width: 12%;
+    }
+
+    tr:nth-child(odd) {
+      background-color: #f9f9f9;
+    }
+
+    tr:nth-child(even) {
+      background-color: white;
+    }
+  }
+  thead {
+    tr{
+      th{
+        float:left;
+        border-color:#e67e22;
+        width: 22%;
+        border-bottom: 1px solid #111111;
+      }
+      th:first-child {
+        width: 12%;
+      }
+    }
+  }
+}
+
+.dataTables_paginate.paging_simple_numbers {
+  font-size: 12px;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}

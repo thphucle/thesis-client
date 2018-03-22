@@ -1,0 +1,30 @@
+<div class="box">
+  <div class="box-header">
+    <div class="box-title">Referral Link</div>
+  </div>
+  <div class="box-body">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12">
+        <form class="">
+          <div class="row-background">
+            <div class="form-group">
+
+              <label for="username">Your ID</label>
+              <div >{{user.username}}</div>
+            </div>
+          </div>
+
+          <div class="row-background">
+            <div class="form-group">
+              <label for="reflink">Referral Link</label>
+              <div>
+                <a target="_blank" [href]="href" style="line-height:30px;">{{domain}}{{href}}</a>
+              </div>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

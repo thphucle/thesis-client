@@ -1,0 +1,16 @@
+<div class="wrapper" [ngStyle]="{'background-image': 'url(' + layoutConfig.background_url + ')'}">
+  <app-sidebar *ngIf="layoutConfig.sidebar"></app-sidebar>
+
+  <div class="main-panel" [class.no-sidebar]="!layoutConfig.sidebar">
+
+    <app-panel *ngIf="layoutConfig.panel"></app-panel>
+    <app-header *ngIf="layoutConfig.header"></app-header>
+    <div class="content">
+      <div class="container-fluid" style="height: 100%; position: relative;">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+    <app-footer *ngIf="layoutConfig.footer"></app-footer>
+
+  </div>
+</div>

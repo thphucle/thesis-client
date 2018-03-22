@@ -1,0 +1,24 @@
+@import '../../../variables.scss';
+
+.btn-group {
+  .btn-darkslateblue-border {
+    border-color: $darkslateblue;
+    color: $darkslateblue;
+    &.btn-fill, &:active, &:focus {
+      background-color: $darkslateblue;
+      color: white;
+    }
+    &:active, &:focus {
+      // box-shadow: 0 0 0 0.2rem $darkslateblue;
+      box-shadow: none;
+    }
+  }
+}
+.btn-toggle {
+  color: $darkslateblue;
+  border-color: $darkslateblue;
+  &:focus, &:active {
+    color: white;
+    background-color: $darkslateblue;
+  }
+}

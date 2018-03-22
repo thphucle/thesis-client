@@ -1,0 +1,108 @@
+@import '../../../variables.scss';
+
+.box {
+  .box-body {
+    padding: 10px;
+    background-color: $dark-color-2;
+  }
+}
+
+.edit-form {
+  .toggle-button {
+    position: static;
+  }
+}
+
+.widget-user-image {
+  float: left;
+  margin-right: 5px;
+  & .profile-user-img:hover {
+    cursor: pointer;
+  }
+  .profile-user-img {
+    background-color: white;
+  }
+}
+
+.widget-user-desc, .widget-user-name {
+  margin-left: 110px;
+}
+
+.nav-stacked > li {
+  display: block;
+  > a {
+    display: block;
+    font-weight: 600;
+    .right.value {
+      float: right;
+      font-weight: normal;
+
+      input {
+        min-width: 300px;
+      }
+    }
+  }
+}
+
+
+.otp-password2 {
+  form {
+    text-align: center;
+    padding: 15px;
+    label, input {
+      font-size: 14pt;
+    }
+
+    input {
+      height: 46px;      
+    }
+  }    
+}
+
+.app-download {
+  text-align: center;
+  margin: 15px 0;
+  .info {
+    font-size: 13pt;
+    font-weight: 600;
+  }
+  a {
+    display: inline-block;
+    padding: 0 15px;
+
+    img {
+      width: 150px;
+    }
+  }
+}
+
+.button-line {
+  margin-bottom: 10px;
+}
+
+@media (max-width: 425px){
+  .profile-user-img {
+    width: 70px;
+    height: 70px;
+  }
+  .widget-user-desc, .widget-user-name {
+    margin-left: 80px;
+  } 
+  .nav-stacked > li > a {
+    clear: both;
+    .right.value {
+      float: none;
+      input {
+        min-width: auto;
+      }
+    }
+  }
+
+  .app-download {    
+    a {     
+      img {
+        width: 100px;
+      }
+    }
+  }
+}

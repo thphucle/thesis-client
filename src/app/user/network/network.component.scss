@@ -1,0 +1,92 @@
+@import '../../../variables.scss';
+
+.form-inline {
+  .form-group {
+    margin-right: 10px;
+  }
+}
+
+.row-background {
+  background-color: $dark-color-2;
+  margin-bottom: 0;
+  border-bottom: 1px solid $dark-color-1;
+  padding: 5px 20px;
+  
+  .form-group {
+    margin-bottom: 0;
+  }
+
+  label {
+    font-weight: 100;    
+    font-size: 12px;
+  }
+}
+
+.dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+  top: 5px;
+
+  &.green {
+    background-color: green;
+  }
+
+  &.red {
+    background-color: red;
+  }
+
+  &.blue {
+    background-color: blue;
+  }
+}
+
+.network-wrapper {
+  .table-smooth.active {
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12) !important;
+    padding: 10px;
+    padding-bottom: 0px;
+    font-size: 12px;
+  }
+  .dataTables_info {
+    font-size: 12px;
+  }
+  .dataTables_paginate {
+    font-size: 14px;
+  }
+  .dataTables_wrapper .dataTables_info {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 425px) {
+  .form-inline {
+    .form-group {
+      margin-right: 0px;
+    }
+  }
+
+  form button {
+    display: block;
+    width: 100%;
+  }
+}
+@media screen and (max-width: 800px) {
+  .desktop-hidden {
+    display: initial;
+  }
+  .mobile-hidden {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 800px) {
+  .desktop-hidden {
+    display: none;
+  }
+  .mobile-hidden {
+    display: initial;
+  }
+}

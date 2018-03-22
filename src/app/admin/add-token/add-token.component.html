@@ -1,0 +1,36 @@
+<div class="box">
+  <div class="box-header">
+    <div class="box-title">ADD TOKEN</div>
+  </div>
+  <div class="box-body">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12">
+        <form class="form form-horizontal" #transactionForm="ngForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label for="address" class="control-label col-sm-2 col-xs-12">CTU Address</label>
+            <div class="col-sm-8 col-xs-12">
+              <input name="address" class="form-control" type="text" id="address" [(ngModel)]="ctu_address" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="usd" class="control-label col-sm-2 col-xs-12">Amount</label>
+            <div class="col-sm-2 col-xs-12">
+              <select class="form-control" name="usd" id="usd" [(ngModel)]="usd">
+                <option *ngFor="let value of packagesValue" [value]="value">${{value}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="tran_id" class="control-label col-sm-2 col-xs-12">Transaction ID</label>
+            <div class="col-sm-8 col-xs-12">
+              <input name="trans_id" type="text" [(ngModel)]="tx_id" class="form-control">
+            </div>
+          </div>
+          <div class="text-center">
+            <button type="submit" [appLoading]="isProcessing" class="btn btn-primary">SUBMIT</button>
+          </div>        
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

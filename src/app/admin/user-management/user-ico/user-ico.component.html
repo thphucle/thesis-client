@@ -1,0 +1,77 @@
+<div class="card">
+  <div class="card-header">
+    <h4 class="card-title title-darkslateblue bold">PROMOTION MANAGE</h4>
+  </div>
+  <div class="card-body">
+    <h5 class="title-darkslateblue">ADD PROMOTION PACKAGE</h5>
+    <div class="row justify-content-center">
+      <div class="col-12 col-sm-8">
+        <form (ngSubmit)="addIcoPackage()" [formGroup]="addIcoForm">      
+          <div class="form-group row">
+            <label for="package" class="col-12 col-sm-3 col-form-label title-darkslateblue">Package</label>
+            <div class="col-12 col-sm-9">
+              <select formControlName="ico_package" name="package" id="package" class="form-control">
+                <option *ngFor="let pack of icoPackagesConfig" [value]="pack.price">${{pack.price | number: '.0'}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="otp_code" class="col-12 col-sm-3 col-form-label title-darkslateblue">Admin OTP</label>
+            <div class="col-12 col-sm-3">
+              <input formControlName="otp_code" id="otp_code" type="number" class="form-control">              
+            </div>
+            <div class="col-12 col-sm-9 offset-sm-3">
+              <p *ngIf="addIcoForm.get('otp_code').touched && addIcoForm.get('otp_code').hasError('required')" class="error">
+                This field is required
+              </p>
+            </div>
+          </div>
+          <div class="row justify-content-center">
+            <div class="col-12 col-sm-3">
+              <button [disabled]="addIcoForm.invalid" [appLoading]="promise" type="submit" class="btn btn-primary btn-fill btn-block btn-darkslateblue">SUBMIT</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <h5 class="title-darkslateblue">LIST PROMOTION PACKAGES</h5>
+    <app-spinner-container name="ico-package-list" group="ico-package-list">
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>            
+              <th>ID</th>
+              <th>Package</th>
+              <th>Amount (BTC)</th>            
+              <th>Status</th>
+              <th>Created At</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of rows">            
+              <td>
+                <strong>{{row.id}}</strong>
+              </td>
+              <td>
+                <strong>${{row.package_name | number: '.0'}}</strong>
+              </td>
+              <td>
+                <span>{{(row.usd / row.rate_btc_usd) | number: '.0-4'}}</span>
+              </td>            
+              <td>
+                <span class="label" [ngClass]="{'label-success': row.status == 'confirmed', 'label-default': row.status == 'pending'}">{{row.status}}</span>
+              </td>
+              <td>
+                <span>{{row.created_at | date: 'MM/dd/yyyy HH:mm:ss'}}</span>
+              </td>
+            </tr>
+            <tr *ngIf="rows && !rows.length">
+              <td colspan="5">No data to show here</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </app-spinner-container>
+  </div>
+</div>

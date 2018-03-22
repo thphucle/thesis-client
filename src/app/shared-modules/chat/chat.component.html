@@ -1,0 +1,39 @@
+<div class="box box-primary direct-chat direct-chat-primary">
+  <div class="box-header with-border">    
+    <div *ngIf="isWidget" class="box-tools pull-right">
+      <app-chat-toolbar (onCollapse)="onCollap()" (onClose)="onClose()"></app-chat-toolbar>
+    </div>
+    <div class="pull-left">
+      <span class="tag fill gray">#{{ticket.id | padZero: 4}}</span>
+      <span class="small">CREATED ON {{ticket.created_at | date: 'HH:mm MM/dd/yyyy'}}</span>
+    </div>
+    <div *ngIf="buttons && buttons.length" class="box-tools pull-right">
+      <button *ngFor="let btnConfig of buttons" (click)="btnConfig.emitter && btnConfig.emitter.emit()" [class]="'btn btn-sm ' + btnConfig.className">{{btnConfig.text}}</button>
+    </div>
+  </div>
+  <!-- /.box-header -->
+  <div #container (scroll)="onScroll()" class="box-body">
+    <ng-content></ng-content>
+    <!-- Conversations are loaded here -->
+    <div #chatMessages class="direct-chat-messages clearfix">
+      <!-- Message. Default to the left -->
+      <app-chat-reply *ngFor="let reply of replies" [reply]="reply"></app-chat-reply>
+    </div>
+  </div>
+    <!-- /.direct-chat-pane -->
+  <!-- /.box-body -->
+  <div class="box-footer">
+    <app-chat-input
+      *ngIf="editorType == 'default'"
+      (onMessageChange)="onMessageChange($event)"
+      (onSubmit)="onSubmitChat()">
+    </app-chat-input>
+    <app-chat-input-summernote
+      *ngIf="editorType == 'summernote'"
+      (onMessageChange)="onMessageChange($event)"
+      (onSubmit)="onSubmitChat()"
+      (uploadImage)="onUploadImage.emit($event)">
+    </app-chat-input-summernote>
+  </div>
+  <!-- /.box-footer-->
+</div>

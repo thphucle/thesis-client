@@ -1,0 +1,113 @@
+<div class="network-wrapper">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-12 col-sm-12">
+        <form class="">
+          <div class="form-group row">
+            <label class="col-12 col-sm-3 col-form-label title-darkslateblue label-control">Register link</label>
+            <div class="col-12 col-sm-9">
+              <input disabled type="text" [value]="registerLink" class="form-control col-10" style="display:inline-block;">
+              <button (click)="notifyCopied()" type="button" class="col-2 btn btn-sm btn-default btn-darkslateblue pull-right" style="padding: 5px 0px; font-size: 18px; width: 15%;" ngxClipboard [cbContent]="registerLink">COPY</button>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-12 col-sm-3 col-form-label title-darkslateblue label-control">Registers</label>
+            <div class="col-12 col-sm-9">
+              <input disabled type="text" name="referral" [value]="referral" class="form-control">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-12 col-sm-3 col-form-label title-darkslateblue label-control">Deposit</label>
+            <div class="col-12 col-sm-9">
+              <input disabled type="text" name="deposit" [value]="deposit" class="form-control">
+            </div>
+          </div>
+        
+          <div class="form-group row">
+            <label class="col-12 col-sm-3 col-form-label title-darkslateblue label-control">REFERRAL REPORT</label>
+            <div class="col-12 col-sm-9">
+              <!-- <app-spinner-container name="commission-list" group="commission-list">
+                <ngx-datatable
+                  class="material"
+                  [rows]="commissions"
+                  [columnMode]="'force'"
+                  [headerHeight]="50"
+                  [footerHeight]="50"
+                  [rowHeight]="'auto'"
+                  [sortType]="'single'">
+                  <ngx-datatable-column prop="username" name="Username">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                      <span>{{row.downline.username}}</span>
+                    </ng-template>
+                  </ngx-datatable-column>
+
+                  <ngx-datatable-column prop="total_ctu" name="CTU">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                      <span>{{row.total_ctu || 0}}</span>
+                    </ng-template>
+                  </ngx-datatable-column>
+
+                  <ngx-datatable-column prop="type" name="Type">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                      <span *ngIf="row.type == 'referral'">REGISTER</span>
+                      <span *ngIf="row.type == 'commission_deposit'">DEPOSIT</span>
+                    </ng-template>
+                  </ngx-datatable-column>
+
+                  <ngx-datatable-column prop="created_at" name="Last Deposit">
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                      <span *ngIf="row.type == 'referral'">N/A</span>
+                      <span *ngIf="row.type == 'commission_deposit'">{{row.created_at | date: 'yyyy-MM-dd HH:mm:ss'}}</span>
+                    </ng-template>
+                  </ngx-datatable-column>
+                </ngx-datatable>
+              </app-spinner-container> -->
+              <app-spinner-container name="commissions-list" group="commissions-list">
+                <div [class.active]="isShowTable" class="table-smooth">
+                  <table class="table display responsive no-wrap table-striped" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+                    <thead>
+                      <tr>
+                        <th>Username</th>
+                        <th>CTU</th>                
+                        <th>Type</th>
+                        <th>Last Deposit</th>
+                      </tr>
+                    </thead>
+                    <tbody style="font-size: 12px;">
+                      <tr *ngFor="let commission of commissions">
+                        <td>
+                          <span>{{commission.downline.username}}</span>
+                        </td>
+                        <td>
+                          <span>{{commission.total_ctu || 0}}</span>
+                        </td>
+                        <td>
+                          <span *ngIf="commission.type == 'referral'">REGISTER</span>
+                          <span *ngIf="commission.type == 'commission_deposit'">DEPOSIT</span>
+                        </td>
+                        <td>
+                            <span *ngIf="commission.type == 'referral'">N/A</span>
+                            <span *ngIf="commission.type == 'commission_deposit'">{{commission.created_at | date: 'yyyy-MM-dd HH:mm:ss'}}</span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </app-spinner-container>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-12 col-sm-3 col-form-label title-darkslateblue label-control">CTU TOTAL</label>
+            <div class="col-12 col-sm-9">
+              <span class="info-darkslateblue">{{total_commission}} CTU</span>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+  
+

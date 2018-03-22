@@ -1,0 +1,121 @@
+<div class="row justify-content-center" style="margin: auto;">
+  <div class="col-xs-12 login-wrapper">
+    <div class="login-box-body">
+      <div class="logo">
+        <img src="/assets/images/logo.svg" alt="">
+      </div>
+      <h3 class="title">Contractium</h3>
+      <div *ngIf="state=='login'">
+        <ul class="nav nav-tabs">
+          <li [ngClass]="{'active': menu=='login'}" (click)="menu='login'">Login</li>
+          <li [ngClass]="{'active': menu=='register'}" (click)="menu='register'">Register</li>
+        </ul>
+        <div class="tab-content">
+          <div id="login" *ngIf="menu=='login'">
+            <form (ngSubmit)="login()" [formGroup]="loginForm">
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Username / Email" formControlName="username" name="username">
+                <p class="error" *ngIf="loginForm.get('username').touched && loginForm.get('username').hasError('required')">This field is required</p>
+              </div>
+              <div class="form-group">
+                <input type="password" class="form-control" placeholder="Password" formControlName="password" name="password">
+                <p class="error" *ngIf="loginForm.get('password').touched && loginForm.get('password').hasError('required')">This field is required</p>
+              </div>
+              <div class="form-group">
+                <re-captcha formControlName="g_recapcha" name="captcha" site_key="6LdwJUkUAAAAAG1Hk4M6hu2ljBi9LFRLm3FfODxy"></re-captcha>
+              </div>
+              <div class="form-group">
+                <button [appLoading]="promiseLogin" [disabled]="loginForm.invalid" type="submit" class="btn btn-fill btn-block btn-login">LOGIN</button>
+              </div>
+              <div class="form-group text-center">
+                <a class="link" routerLink="/user/forgot-password/password_1">Forgot password?</a>
+              </div>
+            </form>
+          </div>
+          <div id="register" *ngIf="menu=='register'">
+            <form (ngSubmit)="register()" [formGroup]="regisForm">
+              <div class="form-group" *ngIf="referral">          
+                <input class="form-control" type="text" disabled [value]="'Referral id: '+referral">
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Username" formControlName="username" name="username">
+                <p class="error" *ngIf="regisForm.get('username').touched && regisForm.get('username').hasError('required')">This field is required</p>
+                <p class="error" *ngIf="regisForm.get('username').touched && regisForm.get('username').hasError('pattern')">Username must be at least 6 characters, only contains lowercase character (a-z), digit (0-9) and underscore (_)</p>
+              </div>
+              <div class="form-group">
+                <input type="email" class="form-control" placeholder="Email" formControlName="email" name="email">
+                <p class="error" *ngIf="regisForm.get('email').touched && regisForm.get('email').hasError('email')">This field is required</p>
+              </div>
+              <div class="form-group">
+                <input type="password" class="form-control" placeholder="Password" formControlName="password" name="password">
+                <p class="error" *ngIf="regisForm.get('password').touched && regisForm.get('password').hasError('required')">This field is required</p>
+                <p class="error" *ngIf="regisForm.get('password').touched && regisForm.get('password').hasError('pattern')">Password must contain at least six characters</p>
+              </div>
+              <div class="form-group">
+                <input type="password" class="form-control" placeholder="Retype password" formControlName="rePassword" name="rePassword">
+                <p class="error" *ngIf="regisForm.get('rePassword').touched && regisForm.get('rePassword').hasError('rePassword')">This field is required</p>
+                <p class="error" *ngIf="regisForm.get('rePassword').touched && regisForm.get('rePassword').hasError('notMatch')">Passwords are not match</p>
+              </div>
+              <div class="form-group">         
+                <input formControlName="fullname" type="text" class="form-control" placeholder="Your fullname">
+                <p class="error" *ngIf="regisForm.get('fullname').touched && regisForm.get('fullname').hasError('required')">This field is required</p>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">              
+                    <select formControlName="national" id="national" class="form-control">
+                      <option *ngFor="let national of nations" [value]="national.value">{{national.name}}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-8">
+                  <div class="form-group">              
+                    <div class="input-group">
+                      <span class="input-group-addon" id="basic-addon1">{{regisForm.get('national').value}}</span>
+                      <input formControlName="phone" type="text" class="form-control" placeholder="Phone number" aria-describedby="basic-addon1">
+                    </div>
+                    <p class="error" *ngIf="regisForm.get('phone').touched && regisForm.get('phone').hasError('required')">This field is required</p>
+                    <p class="error" *ngIf="regisForm.get('phone').touched && regisForm.get('phone').hasError('pattern')">Phone number invalid</p>
+  
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <re-captcha formControlName="g_recapcha" name="captcha" site_key="6LdwJUkUAAAAAG1Hk4M6hu2ljBi9LFRLm3FfODxy"></re-captcha>
+              </div>
+              <div class="form-group">
+                <button [appLoading]="registerReq" [disabled]="regisForm.invalid" type="submit" class="btn btn-fill btn-block btn-login">REGISTER</button>
+              </div>
+              <!-- <div class="form-group text-center">
+                Already have account? <a class="link" routerLink="/login">Login</a>
+              </div> -->
+            </form>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="state=='otp'">
+        <div class="auth-title">
+          <span class="title-darkslateblue">2FA Security</span>
+        </div>
+        <div id="otp" *ngIf="state=='otp'">
+            <form (ngSubmit)="with_otp()" [formGroup]="otpForm">
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Authy Authentication Code" formControlName="otp_code" name="otp_code">
+                <p class="error" *ngIf="otpForm.get('otp_code').touched && otpForm.get('otp_code').hasError('required')">This field is required</p>
+              </div>
+              <div class="form-group">
+                <button [appLoading]="promiseOtp" [disabled]="otpForm.invalid" type="submit" class="btn btn-fill btn-block btn-login">SUBMIT</button>
+              </div>
+              <div class="form-group text-center">
+                <a class="link" href="/">Login into another account?</a>
+              </div>
+            </form>
+          </div>
+      </div>
+      
+      <!---->
+      <!--<a href="register.html" class="text-center">Register a new membership</a>-->
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,30 @@
+.logo {
+  display: flex;
+  & > a {
+    display: inline-block;    
+    margin: auto;
+    img {
+      height: 50px;
+      &.d-lg-none {
+        height: 50px;
+        @media screen and (max-width: 575px) {
+          height: 40px;
+        }
+      }
+    }
+  }  
+}
+
+.nav.nav-mobile-menu {
+  border: none;
+  margin-top: 0;
+}
+
+.sidebar .nav li .nav-link span, body>.navbar-collapse .nav li .nav-link span {
+  font-size: 28px;
+  margin-right: 15px;
+  width: 30px;
+  text-align: center;
+  vertical-align: middle;
+  float: left;
+}

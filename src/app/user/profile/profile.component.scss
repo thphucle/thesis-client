@@ -1,0 +1,218 @@
+@import '../../../variables.scss';
+
+.box {
+  .box-body {
+    padding: 10px;
+    background-color: $dark-color-2;
+  }
+}
+
+.edit-form {
+  .toggle-button {
+    position: static;
+  }
+}
+
+.widget-user-image {
+  float: left;
+  margin-right: 5px;
+  & .profile-user-img:hover {
+    cursor: pointer;
+  }
+  .profile-user-img {
+    background-color: white;
+  }
+}
+
+.widget-user-desc, .widget-user-name {
+  margin-left: 110px;
+}
+
+.nav-stacked > li {
+  display: block;
+  > a {
+    display: block;
+    font-weight: 600;
+    .right.value {
+      float: right;
+      font-weight: normal;
+
+      input {
+        min-width: 300px;
+      }
+    }
+  }
+}
+
+
+.otp-password2 {
+  form {
+    text-align: center;
+    padding: 15px;
+    label, input {
+      font-size: 14pt;
+    }
+
+    input {
+      height: 46px;      
+    }
+  }    
+}
+
+.app-download {
+  text-align: center;
+  margin: 15px 0;
+  .info {
+    font-size: 13pt;
+    font-weight: 600;
+  }
+  a {
+    display: inline-block;
+    padding: 0 15px;
+
+    img {
+      width: 150px;
+    }
+  }
+}
+
+.button-line {
+  margin-bottom: 10px;
+}
+
+.accordion {
+  .card {        
+    margin-bottom: 0;    
+    .card-header {
+      padding: 0px;
+    }
+
+    .card-body {
+      padding: 30px;
+    }
+    
+    .card-link {
+      padding: 15px;
+      background-color: $darkslateblue;
+      color: white;
+      display: block;          
+      transition: background linear 0.2s;
+      font-weight: bold;
+      text-transform: uppercase;
+      &.collapsed {
+        color: $darkslateblue;
+        text-transform: uppercase;
+        font-size: 16px;
+        font-weight: bold;
+        background-color: white;
+        &:hover {
+          background-color: darken(white, 5%);
+        }
+      }
+    }
+  }
+}
+
+.auth-2fa {
+  .card {
+    height: 100%;
+    .card-header {
+      padding: 15px;
+      padding-bottom: 0;
+    }
+  }
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 57px;
+    height: 26px;
+    margin-bottom: 0;
+    input {
+      display:none;
+    }
+  }
+  .item {
+    padding: 0 20px;
+    .title {
+      display: inline-block;
+      margin-top: 6px;
+    }
+    .status {
+      margin-top: 5px;
+      display: inline-block;
+      float: right;
+    }
+  }
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+    &:before {
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      left: 6px;
+      bottom: 4px;
+      background-color: white;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+  }
+  
+  input:checked + .slider {
+    background-color: #2196F3;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
+}
+
+@media (max-width: 425px){
+  .profile-user-img {
+    width: 70px;
+    height: 70px;
+  }
+  .widget-user-desc, .widget-user-name {
+    margin-left: 80px;
+  } 
+  .nav-stacked > li > a {
+    clear: both;
+    .right.value {
+      float: none;
+      input {
+        min-width: auto;
+      }
+    }
+  }
+
+  .app-download {    
+    a {     
+      img {
+        width: 100px;
+      }
+    }
+  }
+}

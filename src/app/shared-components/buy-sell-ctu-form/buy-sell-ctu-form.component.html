@@ -1,0 +1,121 @@
+<div class="card trade-ctu-form">
+  <div class="card-header title" [ngStyle]="{'background-color': getColorBackgroundTitle()}">
+    <h4 class="text-center card-title">
+      <b *ngIf="typeForm == 'sell'">SELL CTU </b>
+      <b *ngIf="typeForm == 'buy'">BUY CTU </b>
+    </h4>
+  </div>
+  <div class="card-body">
+    <h5 class="text-center">
+      Available balance: <b>{{currentBalance | number: '.0-8'}}</b> {{currentBalanceCurrency}}
+    </h5>
+    
+    <form novalidate class="form-horizontal">
+      <div class="form-group row ">
+        <label class="control-label col-sm-2 col-12" for="units">Amount</label>
+        <div class="col-sm-10 col-12">
+          <div class="input-group">
+            <div class="input-group-btn">
+              <span class="btn btn-default" disabled="">
+                <img class="icon" src="/assets/images/ctu-icon.jpg"/>
+              </span>
+            </div>
+            <input class="form-control fix-height" type="text" name="units" placeholder="0.00000000" [(ngModel)]="inputValues.amount" (change)="calculateTotal('amount')" (ngModelChange)="checkLength('amount')" (focus)="focusInput('amount')" (blur)="blurInput('amount')">
+            <div class="input-group-btn">
+              <span *ngIf="typeForm == 'sell'" class="btn btn-primary mnw100" (click)="setAll()">ALL</span>
+              <span *ngIf="typeForm == 'buy'" class="btn btn-primary mnw100" disabled="">CTU</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row ">
+        <label class="control-label col-sm-2 col-12" for="rate">Price</label>
+        <div class="col-sm-10 col-12">
+          <div class="input-group">
+            <div class="input-group-btn">
+              <span class="btn btn-default" disabled="">
+                <i class="fa fa-btc"></i>
+              </span>
+            </div>
+            <input class="form-control fix-height" type="text" name="units_buy" placeholder="0.00000000" [(ngModel)]="inputValues.rate" (change)="calculateTotal('rate')" (ngModelChange)="checkLength('rate')" (focus)="focusInput('rate')" (blur)="blurInput('rate')">
+            <div class="dropdown input-group-btn">
+              <button class="btn btn-primary dropdown-toggle mnw100" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{rate_type}}
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <p class="dropdown-item" id="last_price" (click)="getRate('Last')">Last</p>
+                <p class="dropdown-item" id="bid_price" (click)="getRate('Bid')">Bid</p>
+                <p class="dropdown-item" id="ask_price" (click)="getRate('Ask')">Ask</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row mb-0">
+        <label class="control-label col-sm-2 col-12" for="total">Total</label>
+        <div class="col-sm-10 col-12" >
+          <div class="input-group">
+            <div class="input-group-btn">
+              <span class="btn btn-default" disabled="">
+                <i class="fa fa-bitcoin"></i>
+              </span>
+            </div>
+            <input class="form-control fix-height" type="text" name="total" placeholder="0.00000000" [(ngModel)]="inputValues.total" (change)="calculateTotal('total')" (ngModelChange)="checkLength('total')" (focus)="focusInput('total')" (blur)="blurInput('total')">
+            <div class="input-group-btn">
+              <span *ngIf="typeForm == 'sell'" class="btn btn-primary mnw100" disabled="">BTC</span>
+              <span *ngIf="typeForm == 'buy'" class="btn btn-primary mnw100" (click)="setAll()">ALL</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row mb-0">
+        <label class="control-label col-sm-2 col-12" for="fee">Fee</label>
+        <div class="col-sm-10 col-12" >
+          <div class="input-group">
+            <div class="input-group-btn">
+              <span class="btn btn-default" disabled="">
+                <i class="fa fa-bitcoin"></i>
+              </span>
+            </div>
+            <input class="form-control fix-height" type="text" name="fee" placeholder="0.00000000" [ngModel]="fee" disabled="">
+            <div class="input-group-btn">
+              <span class="btn btn-primary mnw100" disabled="">BTC</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div [class.invisible]="!isInsufficientBalance" class="form-group row mb-0">
+        <div class="col-sm-10 offset-sm-2 pt-0 pb-0 pr-0 pl-1">
+          <p class="error">Insufficient Balance!</p>
+        </div>
+      </div>
+
+      <button type="submit" 
+        [ngClass]="{'btn-warning': typeForm == 'sell', 'btn-success': typeForm == 'buy'}" 
+        class="btn pull-right" (click)="showDialog()">
+          <i class="fa" [ngClass]="{'fa-minus': typeForm == 'sell', 'fa-plus': typeForm == 'buy'}"></i> {{typeForm == 'sell' ? 'Sell' : 'Buy'}} CTU
+        </button>
+    </form>
+  </div>
+</div>
+
+<!-- Modal -->
+<app-modal [(visible)]="isShowConfirmDialog" (visibleChange)="closeDialogCb($event)">
+  <div app-modal-header>
+    <h5 class="modal-title">Confirm Order</h5>    
+  </div>
+  <div app-modal-body>
+    <p>Are you sure to confirm this order?</p>
+  </div>
+  <div app-modal-footer>
+    <button type="button" class="btn btn-secondary" (click)="isShowConfirmDialog = false">Close</button>
+    <button [appLoading]="promiseCreateTrade" type="button" class="btn btn-primary" (click)="createTrade(inputValues)">Confirm</button>
+  </div>
+</app-modal>
+
+
+  

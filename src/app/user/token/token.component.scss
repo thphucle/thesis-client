@@ -1,0 +1,201 @@
+$bg-colors: #29BB9C #39CA74 #3A99D8 #9A5CB4 #F0C330 #F19B2C #E47E30 #E54D42;
+$packages-name: '500' '1000' '2000' '5000' '10000' '20000' '50000' '100000';
+
+$icon-plus-size: 26px;
+
+@for $index from 1 through length($bg-colors) {
+  $color: nth($bg-colors, $index);
+  $package-name: nth($packages-name, $index);
+  .package-#{$package-name} {
+    background-color: $color;
+    font-size: 12pt;
+    width: 150px;
+    text-align: center;
+    font-weight: 600;
+  }
+}
+
+@for $index from 1 through length($bg-colors) {
+  $color: nth($bg-colors, $index);
+  .package-info.bg-#{$index} {
+    background-color: $color;
+    border-color: darken($color, 10%);
+    transition: background-color linear 0.15s;
+
+    &:hover {
+      background-color: darken($color, 10%);
+      border-color: darken($color, 20%);
+    }
+
+    .icon-plus-fill {
+      background-color: $color;
+    }
+  }
+}
+
+.input-group-addon {
+  background-color: #e9ecef;
+}
+
+
+.package-info {
+  cursor: pointer;
+  background-color: #f39c12;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid #DC8D10;
+  margin: 15px 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  .rate-bonus {
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 22px;
+    color: white;
+    font-weight: 600;
+    background-color: rgba(0,0,0,0.2);
+    padding: 5px 10px;
+    border-bottom-left-radius: 5px;
+    border-top-right-radius: 14px;
+
+    .icon-plus-fill {
+      border-radius: 50%;
+      margin-right: 10px;
+      color: white;
+      width: $icon-plus-size;
+      height: $icon-plus-size;
+      text-align: center;
+      line-height: $icon-plus-size;
+      display: inline-block;
+    }
+  }
+  .price {    
+    padding: 50px 5px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    color: white;
+    font-size: 30pt;
+    text-align: left;
+    font-weight: 600;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    span {
+      position: relative;
+      z-index: 1;
+      font-size: 28px;
+    }
+
+    .title-percent {
+      font-size: 18pt;
+    }
+
+    .box-icon {
+      right: -15px;
+      position: absolute;
+      z-index: 0;
+      bottom: -15px;
+      transform: scale(1.5);
+    }
+  }
+
+  .detail {
+    background: rgba(0,0,0,0.15);
+    color: white;    
+    z-index: 2;
+    position: relative;    
+
+    .bonus-detail {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 10px;
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .bonus-value {
+      font-size: 12pt;
+      font-weight: 100;
+      text-align: center;
+      background: rgba(0, 0, 0, 0.15);
+      margin-right: -5px;
+      margin-left: -5px;
+      padding: 5px 0;
+    }
+
+    .daily-withdraw {
+      margin-bottom: 0;
+    }
+    .value {
+      margin-left: 5px;
+      margin-bottom: 0;
+      font-weight: 600;
+      float: right;
+    }
+  }
+}
+
+.wallet {
+  border: 1px solid #eee;
+  padding: 10px;
+  cursor: pointer;
+  
+  &.active {
+    border-color: #3A99D8;
+  }
+
+  &.disabled {
+    cursor: not-allowed;
+  }
+
+  .col-form-label {
+    line-height: 30px;
+  }
+
+  .wallet-name {
+    font-size: 20px;
+    font-weight: 600;    
+  }
+
+  .wallet-balance {
+    font-size: 20px;    
+  }
+
+  .wallet-subtract {
+    font-size: 18px;
+    color: #E54D42;
+  }
+}
+
+@media (max-width: 1600px) {
+  .package-info {
+    .price {
+      span {
+        font-size: 22px;
+      }
+    }
+
+    .rate-bonus {
+      font-size: 16px;
+    }
+  }
+}
+
+@media (max-width: 991px) {  
+  .wallet {
+    .col-form-label {
+      line-height: initial;
+    }
+  }
+}
+
+@media (max-width: 575px) {
+  .wallet:first-child {
+    margin-bottom: 10px;
+  }
+}

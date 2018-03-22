@@ -1,0 +1,179 @@
+<div class="token-wrap">
+  <div class="list-packages">
+    <div class="section-header">
+      <span class="title">BUY PACKAGES</span>
+    </div>
+    <div class="row">
+      <div *ngFor="let package of packages; let idex = index" class="col-12 col-sm-6 col-md-4 col-xl-3 equal-height">
+        <div (click)="lendingPackageClick(package)" [class]="'package-info bg-' + (idex % 8 + 1)">
+          <span class="rate-bonus">
+            <!-- <span class="icon-plus-fill">+</span> -->
+            <i class="fa fa-arrows-v"></i>{{package.bonus}}%/week
+          </span>
+          <div class="price">
+            <span *ngIf="package.toPrice > 0">
+              ${{package.fromPrice | number: '.0-2'}} to &lt;${{package.toPrice | number: '.0-2'}}
+            </span>
+            <span *ngIf="!package.toPrice">
+              ${{package.fromPrice | number: '.0-2'}}+
+            </span>
+            <img class="box-icon" src="/assets/images/package.png" alt="package">
+          </div>
+          <div class="detail">
+            <div class="bonus-value">Period {{package.period}} weeks</div>
+            <div class="bonus-detail">
+              <div>
+                <span>Maxout: </span>
+                <span class="value">{{package.maxout_rate}}%</span>
+              </div>
+              <div class="daily-withdraw">
+                <span>Withdraw: </span>
+                <span class="value">${{package.weekly_withdraw_limit | number: '.0-2'}}/week</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="box box-primary">
+    <div class="box-header">
+      <h4 class="box-title">YOUR PACKAGES</h4>
+    </div>
+    <div class="box-body">
+      <app-spinner-container name="token-list" [show]="isShowSpinner">
+        <div [class.active]="isShowTable" class="table-smooth">
+          <table #dtTokens class="table display responsive no-wrap table-striped" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+            <thead>
+              <tr>
+                <th>Package Price</th>
+                <th>Week(s) State</th>
+                <th>Status</th>
+                <th>Created At</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let token of tokens">
+                <td>
+                  <span [class]="'tag'">${{token.usd | number: '.0'}}</span>
+                </td>
+                <td>{{token.day_state}}</td>
+                <td>
+                    <span class="badge" [ngClass]="{'badge-success': token.status == 'active', 'badge-default': token.status == 'completed'}">{{token.status}}</span>
+                </td>
+                <td>
+                  <span>{{token.created_at | date: 'MM/dd/yyyy HH:mm:ss'}}</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </app-spinner-container>
+    </div>
+  </div>
+
+  <div class="box box-primary">
+    <div class="box-header">
+      <h4 class="box-title">DOWNLINE PACKAGES</h4>
+    </div>
+    <div class="box-body">
+      <app-filter (currentActiveChange)="filterDate($event)" (onReset)="filterDate($event)" [from]="dataTableFilterDownline.fromDate"
+        [to]="dataTableFilterDownline.toDate">
+      </app-filter>
+      <app-spinner-container [show]="isShowSpinner" name="token-downline">
+        <div [class.active]="isShowTable" class="table-smooth">
+          <table #dtTokens datatable [dtOptions]="dtOptionsDownline" [dtTrigger]="dtTriggerDownline" class="table display responsive no-wrap table-striped">
+            <thead>
+              <tr>
+                <th>Package Name</th>
+                <th>Day(s) State</th>
+                <th>Username</th>
+                <th>Created At</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let token of tokensDownline">
+                <td>
+                  <span [class]="'tag package-' + token.package_name">${{token.usd | number: '.0'}}</span>
+                </td>
+                <td>{{token.day_state}}</td>
+                <td>
+                  <span class="label label-info">{{token.User.username}}</span>
+                </td>
+                <td>
+                  <span>{{token.created_at | date: 'MM/dd/yyyy HH:mm:ss'}}</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </app-spinner-container>
+    </div>
+  </div>
+</div>
+
+<app-dialog [(visible)]="isShowBuyPackage" (visibleChange)="closePopup()" [size]="'sm'">
+  <div class="card card-noborder">
+    <div class="card-header">
+      <h4 class="card-title text-center">BUY SHARING PACKAGE</h4>
+    </div>
+    <div class="card-body">
+      <form (ngSubmit)="buyPackage()" *ngIf="selectedPackage">
+        <div class="form-group row">
+          <label class="col-6 col-sm-4 col-form-label">Package Amount</label>          
+          <div class="col-6 col-sm-3">
+            <div class="input-group">              
+              <span class="input-group-addon">$</span>
+              <input name="amount" [(ngModel)]="packageAmount" (ngModelChange)="inputAmountChange($event)" placeholder="Manual enter amount in USD" type="text" class="form-control">
+            </div>            
+          </div>
+          <div [class.invisible]="!errorMessage" class="col-12 col-sm-8 offset-sm-4">
+            <p class="error"> {{errorMessage}}</p>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-12 col-form-label">Select a wallet</label>
+          <div class="col-12">
+            <div class="row justify-content-center">
+              <div class="col-12 col-sm-6" *ngFor="let wallet of wallets">
+                <div (click)="walletClick(wallet)" class="wallet" [class.active]="wallet === selectedWallet" [class.disabled]="wallet.isInsufficient">
+                  <label class="wallet-name">{{wallet.title}}</label>
+                  <div class="row">
+                    <label class="col-6 col-sm-4 col-form-label">Balance: </label>
+                    <div class="col-6 col-sm-8">
+                      <span class="wallet-balance">{{wallet.balance | number: '.0-2'}}</span>
+                    </div>
+                  </div>
+                  <div *ngIf="!wallet.isInsufficient" class="row">
+                    <label class="col-6 col-sm-4 col-form-label">Amount: </label>
+                    <div class="col-6 col-sm-8">
+                      <span class="wallet-subtract">-{{wallet.subtract_amount | number: '.0-2'}}</span>
+                    </div>
+                  </div>
+                  <div *ngIf="wallet.isInsufficient" class="row">
+                    <label class="col-12 col-sm-4 col-form-label invisible">Amount</label>
+                    <div class="col-12 col-sm-8">
+                      <span class="wallet-subtract">Insufficient Balance</span>
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
+            </div> 
+          </div>
+        </div>    
+        <!-- <div *ngIf="isInsufficientBalance" class="form-group">
+          <div class="text-center">
+            <div class="alert alert-danger">
+              <span>Insufficient Balance</span>
+            </div>
+          </div>
+        </div> -->
+        <div class="text-center">
+          <button [disabled]="!!errorMessage" *ngIf="!isInsufficientBalance" [appLoading]="buyPackagePromise" class="btn btn-primary btn-fill">SUBMIT</button>
+          <button *ngIf="isInsufficientBalance" (click)="closePopup()" class="btn btn-default">CLOSE</button>          
+        </div>
+      </form>
+    </div>
+  </div>
+</app-dialog>

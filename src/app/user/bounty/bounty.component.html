@@ -1,0 +1,272 @@
+<div class="bounty-wrap">
+<div class="card card-primary">
+    <div class="card-header">      
+      <h4 class="card-title text-left title-darkslateblue bold">BOUNTY/AIRDROP &amp; REWARD SYSTEM</h4>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-12 col-sm-12">
+          <p class="title-darkslateblue">YOU HAVE IN TOTAL: {{total_bounty_ctu}} CTU</p> 
+          <div id="bounty-progress-bar" class="progress">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" style="width:0%">
+              {{total_bounty_ctu}} CTU
+            </div>
+          </div>
+          <div class="ruler">
+            <div class="row">
+              <div class="col-6 text-left">0 CTU</div>
+              <div class="col-6 text-right">Est. 25000 CTU</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card card-primary">
+    <div class="card-header">      
+      <h4 class="card-title text-left title-darkslateblue bold">AIRDROP CTU FREE VIA REFERRAL PROGRAM</h4>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-12 col-sm-12">
+          <app-network (dataChange)="getCommission($event)" ></app-network>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card card-primary">
+    <div class="card-header">      
+      <h4 class="card-title text-left title-darkslateblue bold">AIRDROP CTU FREE VIA REGISTRATION AND/OR SUBSCRIPTION</h4>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-12 col-sm-12">
+          <form (ngSubmit)="emailSubscription()">
+            <div class="form-group row">
+              <label class="col-12 col-sm-3 col-form-label title-darkslateblue label-control">Subscription newsletter</label>
+              <div class="col-6 col-sm-3">
+                <input  disabled type="text" name="subscription" [value]="bounty_subscription" class="form-control">
+              </div>
+              <ng-container *ngIf="!user.subscribe">
+                <div class="col-4 col-sm-4">
+                  <input type="email" name="subscription_email" [(ngModel)]="email" placeholder="Subscribe your registered-email here to receive newsletter" class="form-control" (keyup.enter)=onSub()>
+                </div>
+                <div class="col-2">
+                    <button [appLoading]="isProcessingSubscription" class="btn btn-primary btn-fill btn-darkslateblue">UPDATE</button>
+                </div>
+              </ng-container>
+            </div>
+          </form>
+
+          <div class="form-group row">
+            <label class="col-12 col-sm-3 col-form-label title-darkslateblue label-control">Account registration</label>
+            <div class="col-6 col-sm-3">
+              <input disabled type="text" name="register" [value]="bounty_register" class="form-control">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-12 col-sm-3 col-form-label title-darkslateblue label-control">KYC registration</label>
+            <div class="col-6 col-sm-3">
+              <input disabled type="text" name="kyc" [value]="bounty_kyc" class="form-control">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-12 col-sm-3 col-form-label title-darkslateblue label-control">CTU TOTAL</label>
+            <div class="col-12 col-sm-9">
+              <span class="info-darkslateblue">{{bounty_register + bounty_subscription + bounty_kyc}} CTU</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card card-primary">
+    <div class="card-header">      
+      <h4 class="card-title text-left title-darkslateblue bold">AIRDROP CTU FREE VIA SOCIAL MEDIA</h4>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-12 col-sm-12">
+          <div class="form-group row">
+            <label class="col-12 col-sm-3 col-form-label title-darkslateblue label-control">Facebook share</label>
+            <div class="col-6 col-sm-3">
+              <input disabled type="text" name="fb_share" [value]="sdk.fb_share" class="form-control">
+            </div>
+            <div class="col-6 col-sm-6">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-12 col-sm-3 col-form-label title-darkslateblue label-control">Twitter tweet</label>
+            <div class="col-6 col-sm-3">
+              <input disabled type="text" name="tw_tweet" [value]="sdk.tw_tweet" class="form-control">
+            </div>
+            <div class="col-6 col-sm-6">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-12 col-sm-3 col-form-label title-darkslateblue label-control">LinkedIn share</label>
+            <div class="col-6 col-sm-3">
+              <input disabled type="text" name="li_share" [value]="sdk.li_share" class="form-control">
+            </div>
+            <div class="col-6 col-sm-6">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-12 col-sm-3 col-form-label title-darkslateblue label-control">Google+ share</label>
+            <div class="col-6 col-sm-3">
+              <input disabled type="text" name="gp_share" [value]="sdk.gp_share" class="form-control">
+            </div>
+            <div class="col-6 col-sm-6">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-12 col-sm-3 col-form-label title-darkslateblue label-control">Follow our Twitter</label>
+            <div class="col-6 col-sm-3">
+              <input disabled type="text" name="tw_follow" [value]="sdk.tw_follow" class="form-control">
+            </div>
+            <div class="col-6 col-sm-6">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-12 col-sm-3 col-form-label title-darkslateblue label-control">Join our Telegram</label>
+            <div class="col-6 col-sm-3">
+              <input disabled type="text" name="tg_join" [value]="sdk.tg_join" class="form-control">
+            </div>
+            <div class="col-6 col-sm-6">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-12 col-sm-3 col-form-label title-darkslateblue label-control">Like our Facebook</label>
+            <div class="col-6 col-sm-3">
+              <input disabled type="text" name="fb_like" [value]="sdk.fb_like" class="form-control">
+            </div>
+            <div class="col-6 col-sm-6">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-12 col-sm-3 col-form-label title-darkslateblue label-control">Follow our CEO’s Twitter</label>
+            <div class="col-6 col-sm-3">
+              <input disabled type="text" name="tw_follow_ceo" [value]="sdk.tw_follow_ceo" class="form-control">
+            </div>
+            <div class="col-6 col-sm-6">
+            </div>
+          </div>
+          
+          <div class="form-group row">
+            <label class="col-12 col-sm-3 col-form-label title-darkslateblue label-control">CTU TOTAL</label>
+            <div class="col-12 col-sm-9">
+              <span class="info-darkslateblue">{{bounty_sdk}} CTU</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card card-primary">
+    <div class="card-header">      
+      <h4 class="card-title text-left title-darkslateblue bold">BOUNTY PROGRAM</h4>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-12 col-sm-12">
+          <ng-container *ngFor="let bounty_prog of social_program">
+              <app-bounty-program [data]="bounty_prog"></app-bounty-program>
+          </ng-container>
+          <div class="form-group row">
+            <label class="col-12 col-sm-3 col-form-label title-darkslateblue label-control">CTU TOTAL</label>
+            <div class="col-12 col-sm-9">
+              <span class="info-darkslateblue">{{bounty_program}} CTU</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card card-primary">
+    <div class="card-header">      
+      <h4 class="card-title text-left title-darkslateblue bold">BITCOINTANK.ORG BOUNTY</h4>
+    </div>
+    <div class="card-body">
+      <form (ngSubmit)="updateBitcointalk()">
+        <div class="row">
+          <div class="col-11 col-sm-8 offset-sm-3">
+            <input type="text" name="bct_username" placeholder="Your Bitcointalk username" [(ngModel)]="updateUser.bct_username"  class="form-control" style="margin-bottom: 15px;">
+            <input type="text" name="bct_link" placeholder="Your Bitcointalk profile link" [(ngModel)]="updateUser.bct_link" class="form-control" style="margin-bottom: 15px;">
+          </div>
+          <div class="col-1 col-sm-1">
+            <button [appLoading]="isProcessingBitcointalk" class="btn btn-primary btn-fill btn-darkslateblue rotate">UPDATE</button>
+          </div>
+        </div>
+      </form>
+      <div class="row">
+        <div class="col-12 col-sm-12">
+          <ng-container *ngFor="let bct of bitcointalk">
+            <app-bounty-program [data]="bct"></app-bounty-program>
+          </ng-container>
+          <div class="form-group row">
+            <label class="col-12 col-sm-3 col-form-label title-darkslateblue label-control">CTU TOTAL</label>
+            <div class="col-12 col-sm-9">
+              <span class="info-darkslateblue">{{bounty_bitcointalk}} CTU</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card card-primary">
+    <div class="card-header">      
+      <h4 class="card-title text-left title-darkslateblue bold">REWARD FROM COMMUNITY LEADERS/SOCIAL MEDIA CHANNEL'S ADMINS AND/OR OUR STAFF</h4>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-12 col-sm-12">
+          <div class="form-group row">
+            <label class="col-12 col-sm-3 col-form-label title-darkslateblue label-control">Reward by email</label>
+            <div class="col-12 col-sm-3">
+              <input disabled type="text" value="50" class="form-control">
+            </div>
+            <div class="col-12 col-sm-1">
+              <label class="col-form-label title-darkslateblue label-control">From</label>
+            </div>
+            <div class="col-12 col-sm-4">
+              <input disabled type="text" value="hungkaka" class="form-control">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-12 col-sm-3 col-form-label title-darkslateblue label-control">Reward by other group</label>
+            <div class="col-12 col-sm-3">
+              <input disabled type="text" value="50" class="form-control">
+            </div>
+            <div class="col-12 col-sm-1">
+              <label class="col-form-label title-darkslateblue label-control">From</label>
+            </div>
+            <div class="col-12 col-sm-4">
+              <input disabled type="text" value="Tradecoin Vietnam" class="form-control">
+            </div>
+          </div>
+          <div class="form-group row">
+              <label class="col-12 col-sm-3 col-form-label title-darkslateblue label-control">CTU TOTAL</label>
+              <div class="col-12 col-sm-9">
+                <span class="info-darkslateblue">{{bounty_community}} CTU</span>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

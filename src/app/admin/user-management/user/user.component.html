@@ -1,0 +1,26 @@
+<h3 class="text-center"><i class="fa fa-user"></i> <span class="ml-4">{{user && user.username || '...'}}</span></h3>
+<ul class="nav nav-tabs">
+  <li routerLinkActive="active" class="nav-item"><a routerLinkActive="active" class="nav-link" data-toggle="tab" [routerLink]="['/admin/user-management', user_id, {outlets: {updatesection: 'profile-manage'}}]">Profile</a></li>
+  <li routerLinkActive="active" class="nav-item"><a routerLinkActive="active" class="nav-link" data-toggle="tab" [routerLink]="['/admin/user-management', user_id, {outlets: {updatesection: 'kyc'}}]">KYC</a></li>
+</ul>
+<div class="tab-content">
+  <div id="update-section" class="tab-pane active">
+    <router-outlet name="updatesection"></router-outlet>
+  </div>
+</div>
+
+<div *ngIf="user_id > -1" class="">
+  <ul class="nav nav-tabs">
+    <li routerLinkActive="active" class="nav-item"><a routerLinkActive="active" class="nav-link" data-toggle="tab" routerLink="/admin/user-management/{{user_id}}/wallet">Wallet</a></li>
+    <li routerLinkActive="active" class="nav-item"><a routerLinkActive="active" class="nav-link" data-toggle="tab" routerLink="/admin/user-management/{{user_id}}/token">Packages</a></li>
+    <li routerLinkActive="active" class="nav-item"><a routerLinkActive="active" class="nav-link" data-toggle="tab" routerLink="/admin/user-management/{{user_id}}/transaction">Transactions</a></li>
+    <li routerLinkActive="active" class="nav-item"><a routerLinkActive="active" class="nav-link" data-toggle="tab" routerLink="/admin/user-management/{{user_id}}/commission">Commission</a></li>
+    <li routerLinkActive="active" class="nav-item"><a routerLinkActive="active" class="nav-link" data-toggle="tab" routerLink="/admin/user-management/{{user_id}}/network">Network</a></li>
+  </ul>
+  <div class="tab-content">
+    <div id="home" class="tab-pane active">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+
+</div>

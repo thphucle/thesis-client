@@ -1,0 +1,204 @@
+<div class="card">
+  <div class="card-body">    
+    <div id="accordionChart" role="tablist" aria-multiselectable="true">
+      <div class="row">
+        <div class="col-sm-12">
+          <app-chart-exchange></app-chart-exchange>
+        </div>
+      </div>
+    </div>
+
+    <div id="accordionSummary" role="tablist" aria-multiselectable="true">
+      <div class="card">
+        <div class="header-style" role="tab" id="headingSummary">
+          <h5 class="mb-0">
+            <a class="text-black title-darkslateblue" data-toggle="collapse" data-parent="#accordionSummary" href="#collapseSummary" aria-expanded="true" aria-controls="collapseSummary">
+              SUMMARY
+            </a>
+          </h5>
+        </div>
+    
+        <div id="collapseSummary" class="collapse show" role="tabpanel" aria-labelledby="headingSummary">
+          <div class="row" style="margin-left: 0;margin-right: 0; padding-top: 10px;">
+            <div class="col-sm-6 col-12">
+              <div class="covering">
+                <div class="title"><span [ngClass]="getClassStatus('last_trade_rate', false)">LAST</span></div>
+                <div class="coin-market-subtitle"><i class="fa fa-usd"></i><span class="dev_base_currency_last_price_dollar">
+                  {{summary['last_trade_rate'] && summary['last_trade_rate'].usd | number:'0.0-4'}}
+                </span></div>
+                <div class="coin-base-market">
+                  <i class="fa fa-btc"></i> 
+                  <span class="dev_base_currency_last_price">
+                    {{summary['last_trade_rate'] && summary['last_trade_rate'].btc | number:'0.8'}}
+                  </span>
+                </div>
+                <span class="dev_base_currency_last_price_status">
+                  <i class="fa stat-status" [ngClass]="getClassStatus('last_trade_rate', true)"></i>
+                </span>
+              </div>
+            </div>
+            <div class="col-sm-6 col-12">
+              <div class="covering">
+                <div class="title"><span [ngClass]="getClassStatus('trade_24h_volumn', false)">24H VOL</span></div>
+                <div class="coin-market-subtitle"><i class="fa fa-usd"></i><span class="dev_base_currency_last_price_dollar">
+                  {{summary['trade_24h_volumn'] && summary['trade_24h_volumn'].usd | number:'0.0-4'}}
+                </span></div>
+                <div class="coin-base-market">
+                  <i class="fa fa-btc"></i> 
+                  <span class="dev_base_currency_last_price">
+                    {{summary['trade_24h_volumn'] && summary['trade_24h_volumn'].btc | number:'0.8'}}
+                  </span>
+                </div>
+                <span class="dev_base_currency_last_price_status">
+                  <i class="fa stat-status" [ngClass]="getClassStatus('trade_24h_volumn', true)"></i>
+                </span>
+              </div>
+            </div>
+
+            <div class="col-sm-6 col-12">
+              <div class="covering">
+                <div class="title"><span [ngClass]="getClassStatus('last_trade_bid_rate', false)">BID</span></div>
+                <div class="coin-market-subtitle"><i class="fa fa-usd"></i>
+                  <span class="dev_base_currency_last_price_dollar">
+                    {{summary['last_trade_bid_rate'] && summary['last_trade_bid_rate'].usd | number:'0.0-4'}}
+                  </span>
+                </div>
+                <div class="coin-base-market">
+                  <i class="fa fa-btc"></i> 
+                  <span class="dev_base_currency_last_price">
+                    {{summary['last_trade_bid_rate'] && summary['last_trade_bid_rate'].btc | number:'0.8'}}
+                  </span>
+                </div>
+                <span class="dev_base_currency_last_price_status">
+                  <i class="fa stat-status" [ngClass]="getClassStatus('last_trade_bid_rate', true)"></i>
+                </span>
+              </div>
+            </div>
+
+            <div class="col-sm-6 col-12">
+              <div class="covering">
+                <div class="title"><span [ngClass]="getClassStatus('last_trade_ask_rate', false)">ASK</span></div>
+                <div class="coin-market-subtitle"><i class="fa fa-usd"></i><span class="dev_base_currency_last_price_dollar">
+                  {{summary['last_trade_ask_rate'] && summary['last_trade_ask_rate'].usd | number:'0.0-4'}}
+                </span></div>
+                <div class="coin-base-market">
+                  <i class="fa fa-btc"></i> <span class="dev_base_currency_last_price">
+                    {{summary['last_trade_ask_rate'] && summary['last_trade_ask_rate'].btc| number:'0.8'}}
+                  </span>
+                </div>
+                <span class="dev_base_currency_last_price_status">
+                  <i class="fa stat-status" [ngClass]="getClassStatus('last_trade_ask_rate', true)"></i>
+                </span>
+              </div>
+            </div>
+
+            <div class="col-sm-6 col-12">
+              <div class="covering">
+                <div class="title"><span [ngClass]="getClassStatus('trade_24h_high', false)">24H HIGH</span></div>
+                <div class="coin-market-subtitle"><i class="fa fa-usd"></i><span class="dev_base_currency_last_price_dollar">
+                  {{summary['trade_24h_high'] && summary['trade_24h_high'].usd | number:'0.0-4'}}
+                </span></div>
+                <div class="coin-base-market">
+                  <i class="fa fa-btc"></i> <span class="dev_base_currency_last_price">
+                    {{summary['trade_24h_high'] && summary['trade_24h_high'].btc | number:'0.8'}}
+                  </span>
+                </div>
+                <span class="dev_base_currency_last_price_status">
+                  <i class="fa stat-status" [ngClass]="getClassStatus('trade_24h_high', true)"></i>
+                </span>
+              </div>
+            </div>
+
+            <div class="col-sm-6 col-12">
+              <div class="covering">
+                <div class="title"><span [ngClass]="getClassStatus('trade_24h_low', false)">24H LOW</span></div>
+                <div class="coin-market-subtitle"><i class="fa fa-usd"></i><span class="dev_base_currency_last_price_dollar">
+                  {{summary['trade_24h_low'] && summary['trade_24h_low'].usd | number:'0.0-4'}}
+                </span></div>
+                <div class="coin-base-market">
+                  <i class="fa fa-btc"></i> <span class="dev_base_currency_last_price">
+                    {{summary['trade_24h_low'] && summary['trade_24h_low'].btc | number:'0.8'}}
+                  </span>
+                </div>
+                <span class="dev_base_currency_volume_status">
+                  <i class="fa stat-status" [ngClass]="getClassStatus('trade_24h_low', true)"></i>
+                </span>
+              </div>
+            </div>  
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card-title clearfix">
+      <h4 class="big-title title-darkslateblue">BUY/SELL CTU</h4>
+      <span class="pull-right">Fee: 0.15%</span>
+    </div>
+    <div class="row">
+      <div class="col-sm-6 col-12">
+        <app-buy-sell-ctu-form [currentBalance]="balanceBtc" typeForm="buy" [inputValues]="formValueBuy" (changeValueEvent)="changeValueBuySellForm($event, 'buy')"></app-buy-sell-ctu-form>
+      </div>
+      <div class="col-sm-6 col-12">
+        <app-buy-sell-ctu-form [currentBalance]="balanceBdl" typeForm="sell" [inputValues]="formValueSell" (changeValueEvent)="changeValueBuySellForm($event, 'sell')"></app-buy-sell-ctu-form>
+      </div>
+    </div>
+    
+    <h4 class="card-title big-title title-darkslateblue">LIVE ORDERS</h4>
+    <div class="row">
+      <div class="col-sm-6 col-12">
+          <app-live-orders type="sell" (onClickField)="onChangeField($event)" (onClickFastTrade)="fastTrade($event)"></app-live-orders>
+      </div>
+      <div class="col-sm-6 col-12">
+        <app-live-orders type="buy" (onClickField)="onChangeField($event)" (onClickFastTrade)="fastTrade($event)"></app-live-orders>
+      </div>
+    </div>
+
+    <div id="accordionMarketHistory" role="tablist" aria-multiselectable="true">
+      <div class="card">
+        <div class="header-style" role="tab" id="headingMarketHistory">
+          <h5 class="mb-0">
+            <a class="text-black title-darkslateblue" data-toggle="collapse" data-parent="#accordionMarketHistory" href="#collapseMarketHistory" aria-expanded="true" aria-controls="collapseMarketHistory">
+              MARKET HISTORY
+            </a>
+          </h5>
+        </div>
+    
+        <div id="collapseMarketHistory" class="collapse show" role="tabpanel" aria-labelledby="headingOrderMarketHistory">
+          <app-trade-history [trades]="marketHistoryTrades"></app-trade-history>  
+        </div> 
+      </div>
+    </div>
+
+    <div id="accordionMyOpenOrder" role="tablist" aria-multiselectable="true">
+      <div class="card">
+        <div class="header-style" role="tab" id="headingMyOpenOrder">
+          <h5 class="mb-0">
+            <a class="text-black title-darkslateblue" data-toggle="collapse" data-parent="#accordionMyOpenOrder" href="#collapseMyOpenOrder" aria-expanded="true" aria-controls="collapseMyOpenOrder">
+              MY OPEN ORDERS
+            </a>
+          </h5>
+        </div>
+    
+        <div id="collapseMyOpenOrder" class="collapse show" role="tabpanel" aria-labelledby="headingMyOpenOrder">
+          <app-order-exchange-history [orders]="myOpenOrders"></app-order-exchange-history>
+        </div> 
+      </div>
+    </div>
+
+    <div id="accordionMyMarketHistory" role="tablist" aria-multiselectable="true">
+      <div class="card">
+        <div class="header-style" role="tab" id="headingMyMarketHistory">
+          <h5 class="mb-0">
+            <a class="text-black title-darkslateblue" data-toggle="collapse" data-parent="#accordionMyMarketHistory" href="#collapseMyMarketHistory" aria-expanded="true" aria-controls="collapseMyMarketHistory">
+              MY MARKET HISTORY
+            </a>
+          </h5>
+        </div>
+    
+        <div id="collapseMyMarketHistory" class="collapse show" role="tabpanel" aria-labelledby="headingMyMarketHistory">
+          <app-trade-history [trades]="myMarketHistoryTrades"></app-trade-history>
+        </div> 
+      </div>
+    </div>
+  </div>
+</div>

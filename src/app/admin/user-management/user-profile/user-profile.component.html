@@ -1,0 +1,98 @@
+<div class="card">
+  <div class="card-header">
+    <h4 class="card-title title-darkslateblue bold">USER INFORMATION</h4>
+  </div>
+  <div class="card-body">
+    <form *ngIf="user" (ngSubmit)="onSubmitUpdateUser()" [formGroup]="userProfileForm">
+      <div class="form-group row">
+        <label class="col-2 col-form-label title-darkslateblue">ID</label>
+        <div class="col-10">
+          <span class="control-text">{{user.id}}</span>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-2 col-form-label title-darkslateblue">Username</label>
+        <div class="col-10">
+          <span class="control-text">{{user.username}}</span>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-2 col-form-label title-darkslateblue">Phone</label>
+        <div class="col-10 col-sm-6">
+          <input formControlName="phone" type="text" class="form-control">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-2 col-form-label title-darkslateblue">Email</label>
+        <div class="col-10 col-sm-6">
+          <input formControlName="email" type="email" class="form-control">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-2 col-form-label title-darkslateblue">CTU Addreses</label>
+        <div class="col-10">
+          <span class="control-text">
+            <a target="_blank" href="https://explorer.bitdeal.co.in/address/{{user.ctu_address}}">
+              {{user.ctu_address}}
+            </a>
+          </span>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-2 col-form-label title-darkslateblue">BTC Addreses</label>
+        <div class="col-10">
+          <span class="control-text">
+            <a target="_blank" href="https://blockexplorer.com/address/{{user.btc_address}}">
+              {{user.btc_address}}
+            </a>
+          </span>
+        </div>
+      </div>
+      <!-- <div class="form-group row">
+        <label class="col-2 col-form-label title-darkslateblue">Threshold Withdraw</label>
+        <div class="col-10 col-sm-4">
+          <input name="threshold-withdraw" type="number" class="form-control" formControlName="lock_withdraw">
+        </div>
+      </div> -->
+      <div class="form-group row">
+        <label for="lock-withdraw" class="col-2 col-form-label title-darkslateblue">Can Withdraw</label>
+        <div class="col-10 col-sm-4">
+          <input name="lock-withdraw" id="lock-withdraw" type="checkbox" formControlName="can_withdraw">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="lock-trade" class="col-2 col-form-label title-darkslateblue">Can Trade</label>
+        <div class="col-10 col-sm-4">
+          <input name="lock-trade" id="lock-trade" type="checkbox" formControlName="can_trade">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-2 col-form-label title-darkslateblue">Password</label>
+        <div class="col-10 col-sm-4">
+          <input name="password" [type]="isSeePw ? 'text' : 'password'" class="form-control" formControlName="new_password">
+        </div>
+        <div class="col-6 col-sm-3">
+          <a (click)="isSeePw = !isSeePw"><i class="fa fa-eye"></i></a>
+        </div>
+        <div class="col-12 col-sm-10 offset-sm-2">
+          <p class="error" *ngIf="userProfileForm.get('new_password').touched && userProfileForm.get('new_password').hasError('required')">This field is required</p>
+          <p class="error" *ngIf="userProfileForm.get('new_password').touched && userProfileForm.get('new_password').hasError('pattern')">Password must contain at least six characters</p>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-2 col-form-label title-darkslateblue">Clear OTP</label>
+        <div class="col-10 col-sm-4">
+          <button type="button" (click)="clearOTP()" class="btn btn-danger btn-sm btn-fill">Clear</button>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-12 col-sm-4">
+          <button [disabled]="userProfileForm.invalid" [appLoading]="promise" class="btn btn-primary btn-fill btn-block btn-darkslateblue" type="submit">SAVE</button>
+        </div>
+      </div>
+    </form>
+    <div *ngIf="!user">
+      <h4>Loading...</h4>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,234 @@
+<app-dialog [(visible)]="isShowAskOtp">
+  <div class="otp-password2">
+    <div class="dialog-header">
+      <h4 class="title">DISABLE AUTHY AUTHENTICATION</h4>
+    </div>
+    <div class="dialog-body">
+      <p class="text-center">Authy authentication code</p>
+      <form class="form-inline justify-content-center">
+        <div class="form-group" style="margin-right: 5px;">
+          <input name="otp_code" type="text" [(ngModel)]="otp.otp_code" class="form-control">
+        </div>
+        <button type="submit" [appLoading]="otp.isLoading" (click)="removeOTP()" class="btn btn-primary btn-darkslateblue">SUBMIT</button>
+      </form>
+    </div>
+  </div>
+
+</app-dialog>
+
+<div id="accordion" class="accordion">
+  <div class="card">
+    <div class="card-header">
+      <a class="card-link" data-toggle="collapse" data-parent="#accordion" href="#profile">
+        1. Profile Update
+      </a>
+    </div>
+    <div id="profile" class="collapse show">
+      <div class="card-body">
+        <div class="row justify-content-center">
+          <div class="col-12 col-sm-12 col-lg-8">
+            <form (ngSubmit)="updateProfile()">
+              <div class="form-group row">
+                <label for="eth_address" class="col-12 col-sm-3 col-form-label title-darkslateblue label-control">ETH Wallet</label>
+                <div class="col-12 col-sm-9">
+                  <input type="text" id="eth_address" name="eth_address" [(ngModel)]="updateUser.eth_address" class="form-control">
+                  <p class="error" *ngIf="!updateUser.eth_address">Please update your ETH Wallet to recieve CTU token!</p>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-12 col-sm-3 col-form-label title-darkslateblue label-control">Email</label>
+                <div class="col-12 col-sm-9">
+                  <input disabled type="email" [value]="user.email" class="form-control">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-12 col-sm-3 col-form-label title-darkslateblue label-control">Username</label>
+                <div class="col-12 col-sm-9">
+                  <input disabled type="text" [value]="user.username" class="form-control">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="fullname" class="col-12 col-sm-3 col-form-label title-darkslateblue label-control">Full name</label>
+                <div class="col-12 col-sm-9">
+                  <input id="fullname" type="text" name="fullname" [(ngModel)]="updateUser.fullname" class="form-control">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-12 col-sm-3 col-form-label title-darkslateblue label-control">Phone number</label>
+                <div class="col-12 col-sm-9">
+                  <input disabled type="text" [value]="user.phone" class="form-control">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="facebook" class="col-12 col-sm-3 col-form-label title-darkslateblue label-control">Face book</label>
+                <div class="col-12 col-sm-9">
+                  <input id="facebook" type="text" name="facebook" [(ngModel)]="updateUser.facebook" class="form-control">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="telegram" class="col-12 col-sm-3 col-form-label title-darkslateblue label-control">Telegram</label>
+                <div class="col-12 col-sm-9">
+                  <input id="telegram" type="text" name="telegram" [(ngModel)]="updateUser.telegram" class="form-control">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="twitter" class="col-12 col-sm-3 col-form-label title-darkslateblue label-control">Twitter</label>
+                <div class="col-12 col-sm-9">
+                  <input id="twitter" type="text" name="twitter" [(ngModel)]="updateUser.twitter" class="form-control">
+                </div>
+              </div>
+              <div class="row justify-content-center">
+                <div class="col-12 text-center">
+                  <button [appLoading]="isProcessingProfile" class="btn btn-primary btn-fill btn-darkslateblue">SUBMIT</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header">
+      <a class="collapsed card-link" data-toggle="collapse" data-parent="#accordion" href="#authy">
+        2. 2FA SECURITY
+      </a>
+    </div>
+    <div id="authy" class="collapse">
+      <div *ngIf="otpStatus == 'new_otp' && otp.qrcode" class="card-body">
+        <div class="text-center">
+          <qr-code [value]="otp.qrcode" [size]="250" [level]="'M'"></qr-code>
+        </div>
+
+        <div class="app-download">
+          <p class="info">Download Google Autheticator</p>
+          <a target="_blank" href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2">
+            <img src="/assets/images/playstore.png" alt="Google Play">
+          </a>
+          <a target="_blank" href="https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8">
+            <img src="/assets/images/appstore.png" alt="Appstore">
+          </a>
+        </div>
+
+        <div class="row justify-content-center">
+          <div class="col-12 col-sm-8">
+            <form>
+              <legend>Verify Authy Authentication</legend>
+              <div class="form-group row">
+                <label for="otp_code" class="col-12 col-sm-4">Authy Authentication Code</label>
+                <div class="col-12 col-sm-8">
+                  <input name="otp_code" type="text" [(ngModel)]="otp.otp_code" class="form-control">
+                </div>
+              </div>
+              <div class="pull-right">
+                <button type="button" [appLoading]="otp.isLoading" (click)="cancelEnableOtpClick()" class="btn btn-default">CANCEL</button>
+                <button type="button" [appLoading]="otp.isLoading" (click)="verifyEnableOtpClick()" class="btn btn-primary btn-darkslateblue">SUBMIT</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="otpStatus == 'no_otp'" class="card-body">
+        <div class="text-center">
+          <h4 class="mt-0">Authy Authentication</h4>
+          <p>Low account security: Authy Authentication is
+            <strong class="badge badge-secondary">DISABLED</strong>
+          </p>
+          <button (click)="activateOtpClick()" class="btn btn-primary btn-fill btn-darkslateblue">ENABLE</button>
+        </div>
+      </div>
+      <div *ngIf="otpStatus == 'has_otp'" class="card-body">
+        <div class="row auth-2fa">
+          <div class="col-6">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title title-darkslateblue bold">Authy Authentication</h4>
+              </div>
+              <div class="card-body">
+                <div class="text-center">
+                  <p>Authy Authentication is
+                    <strong class="badge badge-success">ENABLE</strong>
+                  </p>
+                  <button (click)="disableOtpClick()" class="btn btn-primary btn-fill btn-darkslateblue">DISABLE</button>
+                </div>     
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title title-darkslateblue bold">Enable Google Authenticator</h4>
+              </div>
+              <div class="card-body" style="padding-bottom: 15px;">
+                <form (ngSubmit)="authUpdate()" >
+                  <div class="form-group row" style="margin: 0 -30px; padding-bottom: 15px;">
+                    <div class="col-12 item" style="border-top: 1px solid #dadbdc; border-bottom: 1px solid #dadbdc;">
+                      <span class="title-darkslateblue title">Log-in</span>
+                      <span class="status">
+                        <label class="switch">
+                          <input type="checkbox" name="login_2fa" [checked]="updateUser.login_2fa" (change)="updateUser.login_2fa = !updateUser.login_2fa">
+                          <span class="slider round"></span>
+                        </label>
+                      </span>
+                    </div>
+                    <div class="col-12 item" style="border-bottom: 1px solid #dadbdc;">
+                      <span class="title-darkslateblue title">Withdraw</span>
+                      <span class="status">
+                        <label class="switch">
+                          <input type="checkbox" name="withdraw_2fa" [checked]="updateUser.withdraw_2fa" (change)="updateUser.withdraw_2fa = !updateUser.withdraw_2fa">
+                          <span class="slider round"></span>
+                        </label>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="row justify-content-center">
+                    <div class="col-12 text-center">
+                      <button [appLoading]="isProcessing2FA" class="btn btn-primary btn-fill btn-darkslateblue">SUBMIT</button>
+                    </div>
+                  </div>
+                </form>   
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>  
+  <div class="card">
+    <div class="card-header">
+      <a class="collapsed card-link" data-toggle="collapse" data-parent="#accordion" href="#activities">
+        3. Change password
+      </a>
+    </div>
+    <div id="activities" class="collapse">
+      <div class="card-body">
+        <form class="form-horizontal" (ngSubmit)="changePassword()">
+          <div class="form-group row">
+            <label for="old-pw" class="control-label col-12 col-sm-4 title-darkslateblue label-control">Current Password</label>
+            <div class="col-12 col-sm-8">
+              <input id="old-pw" name="old-pw" type="password" class="form-control" [(ngModel)]="updatePasswordData.current_password">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="new-pw" class="control-label col-12 col-sm-4 title-darkslateblue label-control">New Password</label>
+            <div class="col-12 col-sm-8">
+              <input id="new-pw" name="new-pw" type="password" class="form-control" [(ngModel)]="updatePasswordData.new_password">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="re-pw" class="control-label col-12 col-sm-4 title-darkslateblue label-control">Repeat Password</label>
+            <div class="col-12 col-sm-8">
+              <input id="re-pw" name="re-pw" type="password" class="form-control" [(ngModel)]="updatePasswordData.retype_password">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 text-center">
+              <button type="submit" class="btn btn-primary btn-darkslateblue">SUBMIT</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

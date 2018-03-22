@@ -1,0 +1,56 @@
+<div class="card">
+  <div class="card-header">
+    <h4 class="card-title title-darkslateblue bold">KYC</h4>
+  </div>
+  <div class="card-body">
+    <form *ngIf="ident">
+      <div class="form-group row">
+        <label class="col-12 col-sm-3 title-darkslateblue">Status</label>
+        <div class="col-12 col-sm-9">
+          <span class="badge" [ngClass]="{'badge-success': ident.status == 'verified', 'badge-warning': ident.status == 'pending', 'badge-danger': ident.status == 'rejected'}">{{ident.status}}</span>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-12 col-sm-3 title-darkslateblue">ID/Passport</label>
+        <div class="col-12 col-sm-9">
+          <span>{{ident.document_number}}</span>
+        </div>        
+      </div>
+      <div class="form-group row">
+        <label class="col-12 col-sm-3 title-darkslateblue">Pictures</label>
+        <div class="col-12 col-sm-9">
+          <ul class="ident-image-list">
+            <li *ngFor="let identImage of ident.IdentityImages">
+              <div (click)="viewImageClick(identImage)" class="ident-image small" [style.background-image]="'url(' + identImage.Image.thumbnail + ')'"></div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+    </form>
+    <h5 *ngIf="ident === undefined" class="loading">Loading</h5>
+    <h5 *ngIf="ident === null">Not Submitted</h5>
+  </div>
+</div>
+
+<app-modal *ngIf="ident" classSize="modal-lg" [(visible)]="isShowViewImage">
+  <div app-modal-header>
+    <h5 class="modal-title title-darkslateblue">
+      <a routerLink="/admin/user-management/{{ident.user_id}}">            
+        <span class="">{{ident.User && ident.User.username}}</span>
+      </a>
+    </h5>
+  </div>
+  <div app-modal-body>
+    <form *ngIf="currentIdentImage.type == 'national_ident'">
+      <div class="form-group row">
+        <label class="col-12 col-sm-3 title-darkslateblue">Document number</label>
+        <div class="col-12 col-sm-9">{{ident.document_number}}</div>
+      </div>
+    </form>
+    <div *ngIf="currentIdentImage.Image; else noimage" class="ident-image" [style.background-image]="'url(' + currentIdentImage.Image.src + ')'"></div>
+    <ng-template #noimage>
+      Picture is not available
+    </ng-template>
+  </div>  
+</app-modal>

@@ -1,0 +1,27 @@
+<div>
+  <h5><b>{{title}} - {{orders.length}}</b></h5>
+  <div class="table-responsive">
+    <table class="table display responsive no-wrap table-striped custom-fixed-table">
+      <thead>
+        <tr>
+          <th>-</th>
+          <th>PRICE (BTC)</th>
+          <th>AMOUNT (CTU)</th>
+          <th>TOTAL (BTC)</th>
+          <th>SUM (BTC)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of orders" [ngClass]="{'highlight': row.user_ids.indexOf(user.id) !== -1}">
+          <td>
+            <button class="btn btn-success btn-xs" style="font-weight: bold" (click)="fastTrade(row, type)">+</button>
+          </td>
+          <td (click)="selectField(row.price, 'rate')" class="cursor-pointer">{{row.price | number: '0.8'}}</td>
+          <td (click)="selectField(row.remain, 'amount')" class="cursor-pointer">{{row.remain | number: '0.8'}}</td>
+          <td>{{row.total_remain | number: '0.8'}}</td>
+          <td>{{row.sum | number: '0.8'}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

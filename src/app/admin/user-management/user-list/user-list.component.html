@@ -1,0 +1,52 @@
+<div class="box">
+  <div class="box-header">
+    <h4 class="box-title title-darkslateblue bold">USERS MANAGEMENT</h4>
+  </div>
+  <div class="box-body">
+    <form class="form-inline toolbar">
+      <div class="form-group">
+        <label for="username">Username:</label>
+        <input 
+          appInputTyping
+          [delay]="1000" 
+          type="text" 
+          class="form-control" 
+          (inputChange)="filterByUsername($event)"/>
+      </div>      
+    </form>
+    <div class="user-list">      
+
+      <div class="table-responsive">
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table display responsive no-wrap table-striped">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Username</th>
+              <th>Phone</th>
+              <th>Email</th>
+              <th>CTU Address</th>
+              <th>Lock Withdraw</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of users">
+              <td>{{row.id}}</td>
+              <td>
+                <a  routerLink="/admin/user-management/{{row.id}}">            
+                  <span class="label label-info label-md">{{row.username}}</span>            
+                </a>
+              </td>
+              <td>
+                {{row.phone}}
+              </td>
+              <td>{{row.email}}</td>
+              <td>{{row.ctu_address}}</td>
+              <td>{{row.lock_withdraw}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+      
+  </div>
+</div>

@@ -1,0 +1,140 @@
+<div class="text-center mb-4">
+  <div class="btn-group">
+    <button (click)="chooseTab('btc')" [class.btn-fill]="currentTab == 'btc'" class="btn btn-primary btn-darkslateblue-border">BTC</button>
+    <button (click)="chooseTab('ctu1')" [class.btn-fill]="currentTab == 'ctu1'" class="btn btn-primary btn-darkslateblue-border">CTU</button>
+  </div>
+</div>
+
+<div class="card card-primary">
+  <div class="card-header">
+    <h4 class="card-title title-darkslateblue bold">PENDING</h4>
+  </div>
+  <div class="card-body">    
+    <form class="form-inline toolbar">
+      <div class="form-group">
+        <label for="username" class="title-darkslateblue">Search:</label>
+        <input
+          appInputTyping
+          [delay]="1000"
+          type="text"
+          class="form-control"
+          (inputChange)="searchAll($event)"/>
+      </div>
+      <div class="form-group">
+        <label for="limit" class="title-darkslateblue">Per page:</label>
+        <select name="perpage" id="limit" [(ngModel)]="limit" (change)="changeLimit($event)">
+          <option *ngFor="let l of limitOptions" [value]="l">{{l}}</option>
+        </select>
+      </div>
+
+      <div class="form-group pull-right">
+        <div class="text-right">
+          <button (click)="toggleAll()" class="btn btn-success">TOGGLE ALL</button>
+          <button [appLoading]="sendPromise" (click)="send()" class="btn btn-primary btn-fill btn-darkslateblue"> SEND </button>
+        </div>
+      </div>
+    </form>
+
+    <ngx-datatable
+    class="material"
+    [rows]="dataArray"
+    [columnMode]="'force'"
+    [headerHeight]="32"
+    [footerHeight]="32"
+    [rowHeight]="'auto'"
+    [scrollbarH]="true"
+    [sortType]="'single'"
+    [limit]="limit">
+
+      <ngx-datatable-column prop="id" name="Select">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <input
+            type="checkbox"
+            [value]="row.id"
+            [checked]="row.checked"
+            [(ngModel)]="row.checked">
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column prop="User.username" name="Username">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <span>{{row.User.username}}</span>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column prop="amount" name="Amount">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <span>{{row.amount | number: '.8'}}</span>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column prop="address" name="Address">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <span>{{row.address}}</span>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <!-- <ngx-datatable-column prop="status" name="Status">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+          <span class="badge" [ngClass]="{'badge-secondary': row.status == 'pending', 'badge-success': row.status == 'completed'}">{{row.status}}</span>
+        </ng-template>
+      </ngx-datatable-column> -->
+
+      <ngx-datatable-column prop="created_at" name="Created At">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <span>{{row.created_at | date: 'yyyy-MM-dd HH:mm:ss'}}</span>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </div>
+</div>
+
+
+<div class="card">
+  <div class="card-header">
+    <h4 class="card-title title-darkslateblue bold">COMPLETED</h4>
+  </div>
+  <div class="card-body">
+      <ngx-datatable
+      class="material"
+      [rows]="completedWithdraws"
+      [columnMode]="'force'"
+      [headerHeight]="32"
+      [footerHeight]="32"
+      [rowHeight]="'auto'"
+      [scrollbarH]="true"
+      [sortType]="'single'"
+      [limit]="limit">        
+  
+        <ngx-datatable-column prop="User.username" name="Username">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <span>{{row.User.username}}</span>
+          </ng-template>
+        </ngx-datatable-column>
+  
+        <ngx-datatable-column prop="amount" name="Amount">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <span>{{row.amount | number: '.8'}}</span>
+          </ng-template>
+        </ngx-datatable-column>
+  
+        <ngx-datatable-column prop="address" name="Address">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <span>{{row.address}}</span>
+          </ng-template>
+        </ngx-datatable-column>
+  
+        <ngx-datatable-column prop="tx_id" name="Tx ID">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <span>{{value}}</span>
+          </ng-template>
+        </ngx-datatable-column>
+  
+        <ngx-datatable-column prop="created_at" name="Created At">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <span>{{row.created_at | date: 'yyyy-MM-dd HH:mm:ss'}}</span>
+          </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
+  </div>
+</div>

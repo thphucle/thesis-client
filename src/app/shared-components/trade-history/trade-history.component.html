@@ -1,0 +1,23 @@
+<table class="table display responsive no-wrap table-striped custom-fixed-table">
+  <thead>
+    <tr>
+      <th>DATE</th>
+      <th class="fix-text-center">TYPE</th>
+      <th class="fix-text-right">PRICE</th>
+      <th class="fix-text-right">AMOUNT</th>
+      <th class="fix-text-right">TOTAL</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of trades">
+      <td>
+        <span class="highlight" [ngClass]="{'green-highlight': row.type == 'buy', 'red-highlight': row.type == 'sell'}"></span>
+        {{row.created_at | date: 'MM/dd/yyyy HH:mm:ss'}}
+      </td>
+      <td class="text-center" [ngClass]="{'text-off-green': row.type == 'buy', 'text-off-red': row.type == 'sell'}">{{row.type}}</td>
+      <td class="text-right">{{row.rate_ctu_btc | number: '.8'}}</td>
+      <td class="text-right">{{row.amount | number: '.8'}}</td>
+      <td class="text-right">{{row.total | number: '.8'}}</td>
+    </tr>
+  </tbody>
+</table>

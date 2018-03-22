@@ -1,0 +1,21 @@
+
+@import '../../../variables.scss';
+
+.row-background {
+  background-color: $dark-color-2;
+  margin-bottom: 0;
+  border-bottom: 1px solid $dark-color-1;
+  padding: 5px 20px;
+  
+  .form-group {
+    margin-bottom: 0;
+  }
+
+  label {
+    font-weight: 100;
+    color: lightgray;
+    font-size: 12px;
+  }
+
+
+}

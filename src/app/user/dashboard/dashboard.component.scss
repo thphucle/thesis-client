@@ -1,0 +1,592 @@
+$price-outer-height: 150px;
+$price-outer-padding: 9px;
+$price-inner-height: 100px;
+$icon-plus-size: 26px;
+
+$main-color: #DB3834;
+$main-dark-color: #cc2a1a;
+$text-color-secondary: white;
+$text-color: #eee;
+
+$bg-colors: #29BB9C #39CA74 #3A99D8 #9A5CB4 #F0C330 #F19B2C #E47E30 #E54D42;
+
+.equal-height {
+  display: flex;
+  & > div {
+    flex: 1;
+  }  
+}
+
+.clock-countdown {
+  font-size: 36px;
+  font-weight: bold;
+  color: #10ADE4;
+}
+
+.investment {
+  margin-top: 100px;
+  margin-bottom: 100px;
+  text-align: center
+}
+
+.investment-button {
+  display: inline-block;
+  position: relative;
+  background-color: $main-color;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border: 1px solid $main-dark-color;
+  cursor: pointer;
+
+  .investment-text {
+    padding: 30px $price-outer-height 30px 10px;
+    border-radius: 5px;
+    font-size: 1.6em;
+    display: inline-block;
+    color: $text-color-secondary;
+  }
+  .price-outer {
+    background-color: $main-color;
+    border-radius: 50%;
+    display: inline-block;
+    // width: $price-outer-height;
+    // height: $price-outer-height;
+    padding: $price-outer-padding;
+    border: 1px solid $main-dark-color;
+    position: absolute;
+    right: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    .price-inner {
+      background-color: $text-color-secondary;
+      display: block;
+      width: $price-inner-height;
+      height: $price-inner-height;
+      border-radius: 50%;
+      text-align: center;
+      display: flex;
+
+      span {
+        color: $main-color;
+        font-size: 2.3em;
+        margin: auto;
+      }
+    }
+  }
+
+
+}
+
+.investment-button:hover {
+  background-color: $main-dark-color;
+
+  .price-outer {
+    background-color: $main-dark-color;
+  }
+}
+
+.investment-button.activated {
+  background-color: #06da20;
+  border-color: green;
+
+  .investment-text {
+    color: #FFF;
+  }
+
+  .price-outer {
+    border-color: green;
+    background-color: #06da20;
+
+
+    .price-inner {
+      border-color: green;
+
+    }
+  }
+
+
+}
+
+.payment-info {
+  font-size: 20px;
+  position: relative;
+  .form-group {
+    margin-bottom: 5px;
+  }
+
+  .ctu-address {
+    margin-top: 30px;
+    .note {
+      font-size: 16px;
+    }
+    .hint {
+      margin-top: 10px;
+    }
+    .address {
+      width: 100%;
+      display: inherit;
+      padding: 10px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+  }
+}
+
+.payment-info label {
+  font-size: 18px;
+}
+
+.payment-info form {
+  padding: 10px;
+}
+
+.wallet-address {
+  word-wrap: break-word;
+}
+
+.dashboard-info {
+  .statictis {
+    .item {
+      margin: 10px auto;
+    }
+  }
+}
+
+.count-down {
+  margin-bottom: 40px;
+  font-size: 2em;
+  color: red;
+  border-radius: 3px;
+  .form-group {
+    display: inline-block;
+    background: #ffffff;
+    padding: 10px;
+    border: 1px solid #eee;
+    box-shadow: 0px 1px 4px 0px #a5a3a3;
+  }
+}
+
+.package-info {
+  cursor: pointer;
+  background-color: #f39c12;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid #DC8D10;
+  margin: 15px 0;
+  position: relative;
+
+  .rate-bonus {
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 22px;
+    color: white;
+    font-weight: 600;
+    background-color: rgba(0,0,0,0.2);
+    padding: 5px 10px;
+    border-bottom-left-radius: 5px;
+
+    .icon-plus-fill {
+      border-radius: 50%;
+      margin-right: 10px;
+      color: white;
+      width: $icon-plus-size;
+      height: $icon-plus-size;
+      text-align: center;
+      line-height: $icon-plus-size;
+      display: inline-block;
+    }
+  }
+  .price {    
+    padding: 20px 5px;
+    padding-left: 20px;
+    color: white;
+    font-size: 30pt;
+    text-align: left;
+    font-weight: 600;
+
+    span {
+      position: relative;
+      z-index: 1;
+      margin: auto;
+    }
+
+    .title-percent {
+      font-size: 18pt;
+    }
+
+    .box-icon {
+      right: -15px;
+      position: absolute;
+      z-index: 0;
+      bottom: -15px;
+      transform: scale(1.5);
+    }
+  }
+
+  .detail {
+    background: rgba(0,0,0,0.15);
+    color: white;    
+    z-index: 2;
+    position: relative;
+
+    .bonus-detail {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 20px;      
+    }
+
+    .bonus-value {
+      font-size: 12pt;
+      font-weight: 100;
+      text-align: center;
+      background: rgba(0, 0, 0, 0.15);
+      margin-right: -5px;
+      margin-left: -5px;
+      padding: 5px 0;
+    }
+
+    .daily-withdraw {
+      margin-bottom: 0;
+    }
+    .value {
+      margin-left: 5px;
+      margin-bottom: 0;
+      font-weight: 600;
+      float: right;
+    }
+  }
+}
+
+.statistic {
+  .card {
+    margin-bottom: 15px;
+    .box-stat {
+      display: flex;      
+      .icon {
+        padding: 10px;        
+        display: flex;
+        img {
+          margin: auto;
+          height: 60px;
+          max-height: 100%;
+        }
+      }
+
+      .content {
+        padding: 10px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        .value {
+          font-size: 28px;
+          font-weight: 600;    
+          flex: 1;
+          margin-bottom: 20px;
+        }
+
+        .title {
+          font-size: 16px;
+          text-transform: uppercase;
+          font-weight: 500;
+          margin-bottom: 15px;
+        }
+
+        .currency {
+          text-align: right;
+          font-size: 18px;
+          font-weight: 500;
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+
+  .display-flex {
+    display: flex;
+  }
+
+  .network, .qualified {
+    background-color: #3184D0;
+    color: white;
+    flex: 1;
+    display: flex;
+
+    .card-header {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background-color: transparent;      
+      .card-title {
+        color: white;
+      }
+      .icon {
+        flex: 1;
+        display: flex;
+        text-align: center;
+        padding: 0 0 10px 0;
+        img {
+          margin: auto;          
+          max-height: 100px;
+          height: 50px;
+        }
+      }
+
+    }
+
+    table {
+      width: 100%;
+      thead {
+        th {
+          vertical-align: middle;
+          text-align: center;
+          color: white;
+          border-top: 1px solid white;
+          border-bottom: 1px solid white;
+          padding: 5px;
+          position: relative;
+
+          &::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            border-bottom: 10px solid;
+            border-right: 10px solid transparent;
+            border-top: 0;
+            border-left: 10px solid transparent;
+            left: 50%;
+            transform: translateX(-50%);
+          }
+          .total {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 0;
+          }
+
+          .subtitle {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 0px;
+          }
+        }
+      }
+
+      td, th {
+        border-right: 1px solid white;
+        padding: 5px;
+        text-align: center;
+        vertical-align: middle;        
+      }
+
+      td:last-child, th:last-child {
+        border-right: none;
+      }
+    }
+    
+  }
+
+  .qualified {
+    
+    background-color: $main-color;
+
+    &.active {
+      background-color: #28a745;
+    }
+    
+    table {
+      thead {
+        th {
+          border-bottom: none;
+          width: 50%;
+  
+          .total {
+            margin-bottom: 10px;
+            font-size: 14px;
+          }
+        }
+
+      }
+    }
+  }
+
+  .maxout {
+    text-align: center;
+    .card-body {
+      position: relative; 
+      .text-chart {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        .value {
+          font-size: 36pt;
+          font-weight: 700;
+          display: block;
+          line-height: 36pt;
+          span {
+            font-size: 50%;
+          }
+        }
+  
+        .title {
+          font-size: 18px;
+          font-weight: 500;        
+        }
+      }
+    }    
+  }
+}
+
+
+@for $index from 1 through length($bg-colors) {
+  $color: nth($bg-colors, $index);
+  .package-info.bg-#{$index} {
+    background-color: $color;
+    border-color: darken($color, 10%);
+    transition: background-color linear 0.15s;
+
+    &:hover {
+      background-color: darken($color, 10%);
+      border-color: darken($color, 20%);
+    }
+
+    .icon-plus-fill {
+      background-color: $color;
+    }
+  }
+}
+
+@media (max-width: 1396px) {
+  .statistic {
+    .card {
+      .box-stat {
+        position: relative;
+        
+        .icon {
+          padding-top: 30px;
+        }
+        .content {
+          padding-top: 40px;
+          .title {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+          }
+        }
+      }
+    }
+
+  }
+}
+
+@media (max-width: 991px) {
+  .statistic {
+    .card {
+      .box-stat {
+        position: inherit;
+        
+        .icon {
+          padding-top: inherit;
+        }
+        .content {
+          padding-top: 10px;
+          .title {
+            position: inherit;
+            top: inherit;
+            left: inherit;
+          }
+        }
+      }
+    }
+
+  }
+}
+
+@media (max-width: 768px) {
+  .package-info .detail .bonus-detail {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
+@media (max-width: 425px) {
+  .investment {
+    margin-bottom: 50px;
+    margin-top: 50px;
+  }
+
+  .investment-button {
+    .investment-text {
+      padding: 20px 100px 20px 10px;
+      font-size: 1.4em;
+    }
+
+    .price-outer {
+      width: 100px;
+      height: 100px;
+
+      .price-inner {
+        width: 80px;
+        height: 80px;
+      }
+    }    
+  }
+
+  .investment-button.activated {
+    .price-outer {
+      .price-inner {
+        span {
+          font-size: 1.3em;
+        }
+      }
+    }
+  }
+
+  .payment-info {
+    font-size: 16px;
+
+    .form-group label {
+      font-size: 16px;
+    }
+  }
+
+  .clock-countdown {
+    font-size: 24px;
+  }
+
+  .count-down {
+    font-size: 1.2em;
+  }
+
+  .dashboard-info {
+    .statictis {
+      .item {
+        margin-left: -15px;
+        margin-right: -15px;
+      }
+    }
+  }
+
+}
+
+.dashboard-popup {
+  label {
+    text-align: left;
+    color: black;
+    font-weight: bold;
+  }
+
+  input {
+    background-color: #fff;
+    border: 1px solid #444;
+    width: 100%;
+    padding: 3px;
+  }
+}
+
+.uppercase-text {
+  text-transform: uppercase;
+}

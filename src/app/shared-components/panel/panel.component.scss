@@ -1,0 +1,59 @@
+@import '../../../variables.scss';
+
+.nav-item.dropdown {
+  .nav-link {
+    flex-direction: column;
+    padding: 0;
+    cursor: pointer;
+  }
+
+  .dropdown-menu {
+    margin-top: 0;
+    min-width: 100px;
+  }
+
+  .avatar {
+    height: 70px;
+    width: 70px;
+    border-radius: 50%;
+    border: 1px solid black;
+    img {
+      margin-top: 15%;
+      max-height: 70%;
+    }
+  }
+
+  .username {
+    color: #495057;
+    text-transform: initial;
+  }
+
+  .dropdown-toggle::after {
+    display: none;
+  }
+}
+
+@media (min-width: 991px) {  
+  .navbar {
+    height: 120px; 
+  }
+
+  .username {   
+    text-transform: initial;
+  }
+}
+
+@media (max-width: 1192px) {
+  .box-stat {    
+    .icon {
+      display: none;
+    }
+  }
+}
+
+@media (max-width: 991px) {  
+  .navbar {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}

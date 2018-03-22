@@ -1,0 +1,34 @@
+<div class="card card-primary">
+  <div class="card-header">
+    <h4 class="card-title">NEW TICKET</h4>
+  </div>
+  <div class="card-body">
+    <form>
+      <div *ngIf="isSendTo" class="form-group">
+        <label for="title">To user:</label>
+        <div class="row">
+          <div class="col-xs-12 col-sm-4">
+            <app-autocomplete 
+              [setting]="autocompleteSetting" 
+              [items]="userList"
+              (onSelect)="selectUser($event)"></app-autocomplete>
+
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="title">Title:</label>
+        <input name="title" type="text" class="form-control" [(ngModel)]="ticket.title">
+      </div>
+      <div class="form-group">
+        <label for="content">Content:</label>
+        <textarea [(ngModel)]="ticket.message" name="content" id="content" class="form-control"></textarea>
+      </div>
+      <div class="row justify-content-right">
+        <div class="col-12">
+          <button [disabled]="onProcessing" (click)="submit()" class="btn btn-primary pull-right">SUBMIT</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,11 @@
+<app-dialog [(visible)]="showDialog">
+  <div class="confirm-dialog">
+    <div class="message">
+      <ng-content></ng-content>
+    </div>
+    <div class="text-center">
+      <button autofocus (click)="cancel()" class="btn btn-default">{{cancelText}}</button>
+      <button (click)="confirm()" class="btn btn-danger">{{confirmText}}</button>
+    </div> 
+  </div>
+</app-dialog>

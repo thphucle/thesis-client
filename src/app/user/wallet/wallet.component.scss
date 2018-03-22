@@ -1,0 +1,134 @@
+$yellow: #F5BC0B;
+$red: #DF342E;
+$green: #1EA983;
+$blue: #2A82CF;
+$blue-2: #2C396D;
+$black: #202020;
+
+
+.wallet {
+  .card {
+    .card-header {
+      padding: 10px;
+      transition: background linear 0.2s;
+      .card-title a {
+        color: white;
+        font-weight: 600;
+        display: block;
+      }
+
+      &.yellow {
+        background-color: $yellow;
+        &:hover {
+          background-color: darken($yellow, 5%);
+        }
+      }
+      &.red {
+        background-color: $red;
+        &:hover {
+          background-color: darken($red, 5%);
+        }
+      }
+      &.green {
+        background-color: $green;
+        &:hover {
+          background-color: darken($green, 5%);
+        }
+      }
+      &.blue {
+        background-color: $blue;
+        &:hover {
+          background-color: darken($blue, 5%);
+        }
+      }
+      &.blue-2 {
+        background-color: $blue-2;
+        &:hover {
+          background-color: darken($blue-2, 5%);
+        }
+      }
+      &.black {
+        background-color: $black;
+        &:hover {
+          background-color: darken($black, 5%);
+        }
+      }
+
+    }
+  }
+
+  .wallet-box {
+    display: flex;
+    .icon {
+      text-align: center;
+      width: 150px;
+      height: 150px;
+      .fa {
+        font-size: 800%;
+        width: auto;
+      }
+    }
+
+    .detail {
+      padding-left: 15px;
+      display: flex;
+      flex-direction: column;
+
+      .title {
+        font-weight: 600;
+        color: #aaa;
+        font-size: 18px;
+        display: block;
+      }
+
+      .sub-title {
+        color: #202020;
+        font-weight: 600;
+        font-size: 14px;
+        display: block;
+
+      }
+
+      .wallet-address {
+        font-size: 14px;
+      }
+
+      .balance {
+        flex: 1;
+        .value {
+          font-size: 20px;
+          font-weight: 600;
+          color: #202020;
+        }
+      }
+    }
+  }
+
+  .description {
+    padding-top: 15px;
+    p {
+      margin: 0;
+    }
+  }
+}
+
+@media (max-width: 1300px) {
+  .wallet {
+    .wallet-box {
+      flex-direction: column;
+      .detail {
+        padding-left: 0;
+      }
+      .icon {
+        width: 100%;
+      }
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  
+  .wallet-address {
+    font-size: 14px;
+  }
+}

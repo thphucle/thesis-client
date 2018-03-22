@@ -1,0 +1,42 @@
+
+  <div class="commission-wrap">
+    <div class="box box-primary">
+      <div class="box-header">
+        <h3 class="box-title text-center">COMMISSION</h3>
+      </div>
+      <div class="box-body">
+        <app-filter 
+          (currentActiveChange)="filterDate($event)"
+          (onReset)="filterDate($event)">
+        </app-filter>
+        <app-spinner-container name="commission-list" [show]="isShowSpinner">
+            <div [class.active]="isShowTable" class="table-smooth">
+                <table class="table display responsive no-wrap table-striped" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+                  <thead>
+                    <tr>
+                      <th>From User</th>
+                      <th>Level</th>
+                      <th>Amount (USD)</th>
+                      <th>Type</th>
+                      <th>Created At</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let commission of commissions">
+                      <td>
+                        {{(commission.downline && commission.downline.username) || 'unknow'}}
+                      </td>
+                      <td>{{commission.level + 1}}</td>
+                      <td>{{commission.usd}}</td>
+                      <td>
+                          <span class="label" [ngClass]="{'label-primary': commission.type == 'connection', 'label-info': commission.type == 'direct', 'label-success': commission.type == 'indirect', 'label-danger': commission.type == 'title'}">{{commission.type}}</span>
+                      </td>
+                      <td><span>{{commission.created_at | date: 'MM/dd/yyyy HH:mm:ss'}}</span></td>
+                    </tr>              
+                  </tbody>
+                </table>
+              </div>
+        </app-spinner-container>
+      </div>
+    </div>
+  </div>

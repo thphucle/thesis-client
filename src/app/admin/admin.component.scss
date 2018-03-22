@@ -1,0 +1,14 @@
+.wrapper {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+.content-wrapper {
+  flex: 1;
+}
+
+.choose-branch {
+  display: inline-block;
+  width: 200px;
+  margin-top: 8px;
+}

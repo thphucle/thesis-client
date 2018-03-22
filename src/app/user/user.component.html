@@ -1,0 +1,119 @@
+<div class="content">
+  <router-outlet></router-outlet>
+</div>
+
+<app-dialog [visible]="isVisible">
+  <div class="announcement">
+    <div class="header">
+      <h3 class="title">NEW POLICY ACTIVE PACKAGES</h3>
+      <div class="icon">
+        <i class="fa fa-info"></i>
+      </div>
+    </div>
+    <div class="announ-content">
+      <p>
+        The new policy active packages, please spend a minute to read this information in FAQ (section 7.).
+      </p>
+      <p class="text-center">
+        <a class="btn btn-info btn-lg" (click)="isVisible = false" routerLink="/user/faq">See more</a>
+      </p>
+    </div>
+  </div>
+</app-dialog>
+
+<app-dialog [(visible)]="isShowPopupDeposit">
+  <div class="announcement">
+    <div class="header">
+      <h3 class="title">ACTIVE PACKAGE {{deposit.errorCode  ? 'FAILED' : 'SUCCESSFULLY'}}</h3>
+      <div *ngIf="deposit.errorCode > 0" class="icon warning">
+        <img src="assets/images/broken-box.png" alt="broken-box">
+      </div>
+      <div *ngIf="deposit.errorCode == 0" class="icon success">
+        <i class="fa fa-check-circle"></i>
+      </div>
+    </div>
+    <div *ngIf="deposit.errorCode == 0" class="announ-content">
+      <p>
+        Your package <strong>${{deposit.package_name}}</strong> is ready.
+      </p>
+      <p>Reference Transaction ID: <a href="https://explorer.bitdeal.co.in/tx/{{deposit.tx_id}}">{{deposit.tx_id}}</a></p>
+      <p>
+        See your all packages in <a (click)="isShowPopupDeposit = false" routerLink="/user/token">Packages List</a>
+      </p>
+    </div>
+    <div *ngIf="deposit.errorCode == 1" class="announ-content">
+      <form>
+        <div class="form-group">
+          <label>Deposited Amount:</label>
+          <span class="control-text">{{deposit.ctu | number: '.0-2'}} CTU</span> ~
+          <span class="control-text">{{deposit.usd | number: '.0-2'}} USD</span>
+        </div>
+        <div class="form-group">
+          <p>We created a ticket to solve this problem, please open this link: <a (click)="isShowPopupDeposit = false" routerLink="/user/support/{{deposit.ticket.id}}">{{deposit.ticket.title}}</a></p>
+        </div>
+      </form>
+    </div>
+    <div *ngIf="deposit.errorCode == 2" class="announ-content">
+      <form>
+        <div class="form-group">
+          <p>{{deposit.message}}</p>
+        </div>        
+      </form>
+    </div>
+  </div>
+</app-dialog>
+
+<app-modal [visible]="isShowAnnPopup" classSize="modal-lg">  
+  <div style="flex: 1;" class="announcement justify-content-center" app-modal-header>
+    <div class="header">
+      <h3 class="title">New Year Thanksgiving!</h3>      
+    </div>
+  </div>
+  
+  <div app-modal-body>
+    <div class="announcement">      
+      <div class="announ-content">
+        <p>From February 08, 2018, Contractium is going to commemorate our dearest members by extending our much demanded promotion period as follows:</p>
+        <ul>
+          <li>$10,000 Package grants you a bonus of 100% on your purchased CTU amount.</li>
+          <li>$50,000 Package grants you a bonus of 150% on your purchased CTU amount.</li>
+          <li>Other bonus policies are still applied.</li>
+          <li>There are only the <strong>50</strong> last promotional packages for each type of package.</li>
+        </ul>
+        <p>We wish you a Happy New Year.</p>        
+        <p><i>Best regards,</i></p>
+        <p><strong>Contractium</strong></p>
+      </div>
+    </div>
+  </div>
+  <div app-modal-footer>
+    <button class="btn btn-default" (click)="isShowAnnPopup = false">CLOSE</button>
+  </div>
+</app-modal>
+
+<app-dialog [(visible)]="isShowPopupBdlDeposit">
+  <div class="announcement">
+    <div class="header">
+      <h3 class="title">NEW TRANSACTION</h3>
+    </div>
+    <div class="announ-content">
+      <p>You have just sent {{ctuDeposit.ctu}} CTU = ${{ctuDeposit.usd}} to {{ctuDeposit.address}}</p>
+
+      <form>
+        <div class="form-group">
+          <label class="">Transaction ID:</label>
+          <div class="control-text">
+            <a href="https://explorer.bitdeal.co.in/tx/{{ctuDeposit.tx_id}}">{{ctuDeposit.tx_id}}</a>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="">Status:</label>
+          <div class="control-text">
+            <span>{{ctuDeposit.status}}</span>
+          </div>
+        </div>
+        <p><a (click)="isShowPopupBdlDeposit = false" [routerLink]="['deposit-history']">See Deposit History</a></p>
+      </form>
+    </div>
+  </div>
+</app-dialog>

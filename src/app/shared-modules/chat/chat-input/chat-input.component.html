@@ -1,0 +1,8 @@
+<form (ngSubmit)="submit($event)" novalidate>
+  <div class="input-group">
+    <input [(ngModel)]="message" (input)="onMessageChange.emit($event.target.value)" type="text" name="message" placeholder="Type Message ..." class="form-control">
+    <span class="input-group-btn">
+      <button type="submit" class="btn btn-primary btn-flat">Send</button>
+    </span>
+  </div>
+</form>

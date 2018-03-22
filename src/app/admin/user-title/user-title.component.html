@@ -1,0 +1,109 @@
+<div class="box">
+  <div class="box-header box-bordered">
+    <h3 class="box-title">USER TITLE BONUS</h3>
+  </div>
+  <div class="box-body">
+    <!-- <form class="form-horizontal toolbar">
+      <legend>Add Package</legend>
+      <p>- Add package for an user, after a package is activated, the users title will be recalculated, you can check at <a routerLink="/admin/user-management/1/network">System Network</a></p>      
+      <div class="form-group">
+          <label for="username" class="control-label col-sm-2 col-xs-12">User</label> <div class="col-xs-12 col-sm-4">
+            <app-autocomplete [setting]="autocompleteSetting" [items]="allUsers" (onSelect)="selectUser($event)"></app-autocomplete>
+            
+          </div>       
+
+      </div>
+      <div class="form-group">
+        <label for="usd" class="control-label col-sm-2 col-xs-12">Amount</label>
+        <div class="col-sm-2 col-xs-12">
+          <select class="form-control" name="usd" id="usd" [(ngModel)]="usd">
+            <option *ngFor="let value of packagesValue" [value]="value">${{value}}</option>
+          </select>
+        </div>
+      </div>
+
+      <button [appLoading]="isProcessing" (click)="activePackage()" class="btn btn-primary pull-right">Active Package</button>      
+
+    </form>
+
+    <form>
+      <legend>Acions</legend>
+      <p>- The button "Calculate Titles" recalculate user's title and create bonus for each user, after calculate the RESULTS table will load the result.<br><strong>After click this button, you must click "Reset" button to test new case.</strong></p>      
+      <div class="row">
+        <div class="col-xs-6">
+          <button [appLoading]="isCalculating" (click)="calc()" class="btn btn-success pull-right">Calculate Titles</button>
+        </div>        
+      </div>
+    </form> -->
+    
+
+    <div class="result">
+      <!-- <h3>RESULTS</h3>
+      <p>
+        <a routerLink="/admin/user-management/1/network">See Network</a>
+      </p> -->
+      <!-- <ngx-datatable class="material" [rows]="users" [columnMode]="'force'" [headerHeight]="32" [footerHeight]="32" [rowHeight]="'auto'"
+        [scrollbarH]="true" [sortType]="'single'" [externalPaging]="true" [count]="page.total" [offset]="page.page" [limit]="page.perpage"
+        (page)="setPage($event)">
+
+        <ngx-datatable-column prop="id" name="ID">
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            <a style="display: block;" routerLink="/admin/user-management/{{value}}">{{value}}</a>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column prop="username" name="Username">
+          <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+            <a style="display: block;" routerLink="/admin/user-management/{{row.id}}">
+              <span class="label label-info label-md">{{value}}</span>
+            </a>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column prop="network_title" name="Title">
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            <span>{{value}}</span>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column prop="bonus_amount" name="Bonus (USD)">
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            <span>{{value}}</span>
+          </ng-template>
+        </ngx-datatable-column>
+
+      </ngx-datatable> -->
+
+      <div class="table-responsive">
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-striped">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Username</th>
+              <th>Network Title</th>
+              <th>Bonus</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of users">
+              <td>
+                  <a style="display: block;" routerLink="/admin/user-management/{{row.User.id}}">{{row.User.id}}</a>
+              </td>
+              <td>
+                <a style="display: block;" routerLink="/admin/user-management/{{row.User.id}}">
+                  <span class="label label-info label-md">{{row.User.username}}</span>
+                </a>
+              </td>
+              <td>
+                {{row.network_title}}
+              </td>
+              <td>
+                {{(row.Wallet && row.Wallet.usd) || 0}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

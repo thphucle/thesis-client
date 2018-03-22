@@ -1,0 +1,50 @@
+<div class="card">
+  <div class="card-header">
+    <h4 class="card-title title-darkslateblue bold">WALLET MANAGE</h4>
+  </div>
+  <div class="card-body">
+    <form (ngSubmit)="manualIncreaseBalance()" [formGroup]="manualBalanceForm">
+      <div class="form-group row">
+        <label for="wallet_name" class="col-12 col-sm-3 col-form-label title-darkslateblue">Wallet Name</label>
+        <div class="col-12 col-sm-3">
+          <select class="form-control" id="wallet_name" formControlName="wallet_name">
+            <option *ngFor="let name of walletNames" [value]="name">{{name.toUpperCase()}}</option>
+          </select>
+        </div>
+        <div class="col-12 col-sm-3">
+          <span *ngIf="balance" class="wallet-balance">{{balance[manualBalanceForm.get('wallet_name').value] | number: '.0-4'}} {{stickers[manualBalanceForm.get('wallet_name').value]}}</span>
+          <span *ngIf="!balance">loading...</span>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="amount" class="col-12 col-sm-3 col-form-label title-darkslateblue">Amount</label>
+        <div class="col-12 col-sm-3">
+          <input formControlName="amount" type="number" class="form-control">
+        </div>
+        <div class="col-12 col-sm-9 offset-sm-3">
+          <p class="help">Amount can be a negative number,ex: -10, 4.2</p>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="type" class="col-12 col-sm-3 col-form-label title-darkslateblue">Type</label>
+        <div class="col-12 col-sm-3">
+          <select formControlName="type" name="type" id="type" class="form-control">
+            <option value="manual">Manual</option>
+            <option value="link_account">Link Account</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="otp_code" class="col-12 col-sm-3 col-form-label title-darkslateblue">Admin OTP</label>
+        <div class="col-12 col-sm-3">
+          <input formControlName="otp_code" id="otp_code" type="number" class="form-control">
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-12 col-sm-4 col-md-3 col-lg-2">
+          <button [disabled]="manualBalanceForm.invalid" [appLoading]="promise" type="submit" class="btn btn-primary btn-fill btn-block btn-darkslateblue">SUBMIT</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

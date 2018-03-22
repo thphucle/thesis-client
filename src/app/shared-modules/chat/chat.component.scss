@@ -1,0 +1,28 @@
+@import '../../../variables.scss';
+
+.direct-chat-messages {  
+  height: auto;
+  background-color: $dark-color-2;
+}
+
+.direct-chat-img {
+  border-radius: 50%;
+  float: left;
+}
+
+.box .box-body {
+  background-color: $dark-color-2;  
+}
+
+.box-footer {
+  background-color: $dark-color-2;
+  border-top: none;  
+}
+
+.direct-chat .box-body {
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  position: relative;
+  overflow-x: hidden;
+  padding: 0;
+}

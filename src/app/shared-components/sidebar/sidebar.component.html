@@ -1,0 +1,39 @@
+<div id="sidebar" class="sidebar" data-color="black" data-image="/assets/images/sidebar-5.jpeg">
+
+  <!--
+
+      Tip 1: you can change the color of the sidebar using: data-color="blue | azure | green | orange | red | purple"
+      Tip 2: you can also add an image using data-image tag
+
+  -->
+
+  <div class="sidebar-wrapper">
+    <div class="logo">
+      <a href="https://beta.contractium.io/" target="_blank">
+        <img class="d-none d-lg-block" src="/assets/images/logo-color-w.png" alt="logo">
+        <img class="d-lg-none" src="/assets/images/logo-color-w.png" alt="logo">
+      </a>
+    </div>
+
+    <ul class="nav">
+      <li routerLinkActive="active" *ngFor="let m of routes">
+        <a class="nav-link" [routerLink]="m.url">
+          <span [class]="m.icon"></span>
+          <p>{{m.text}}</p>
+        </a>
+      </li>
+    </ul>
+    <ul class="nav nav-mobile-menu">
+      <li class="nav-item">
+        <a class="nav-link" (click)="signOut()">
+          <span class="ti-shift-right"></span>
+          <p>Logout</p>
+        </a>
+      </li>
+    </ul>
+    <ul class="nav nav-mobile-menu">
+      <app-panel-items></app-panel-items>
+    </ul>
+  </div>
+  <div class="sidebar-background" style="background-image: url(/assets/images/sidebar-5.jpeg)"></div>
+</div>

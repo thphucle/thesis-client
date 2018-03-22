@@ -1,0 +1,39 @@
+<div class="card">
+  <div class="card-header">
+    <h4 class="card-title title-darkslateblue bold">NEW SUPPORT USER</h4>
+  </div>
+  <div class="card-body">
+    <div class="row justify-content-center">
+      <div class="col-12 col-sm-8 col-md-6">
+        <form (ngSubmit)="createStaff()" [formGroup]="newStaffForm">
+          <div class="form-group row">
+            <label for="username" class="col-12 col-sm-3 col-form-label title-darkslateblue">Username</label>
+            <div class="col-12 col-sm-9">
+              <input type="text" formControlName="username" class="form-control">
+              <p class="error" *ngIf="newStaffForm.get('username').touched && newStaffForm.get('username').hasError('required')">This field is required</p>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="fullname" class="col-12 col-sm-3 col-form-label title-darkslateblue">Fullname</label>
+            <div class="col-12 col-sm-9">
+              <input type="text" formControlName="fullname" class="form-control">
+              <p class="error" *ngIf="newStaffForm.get('fullname').touched && newStaffForm.get('fullname').hasError('required')">This field is required</p>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="password" class="col-12 col-sm-3 col-form-label title-darkslateblue">Password</label>
+            <div class="col-12 col-sm-9">
+              <input type="text" formControlName="password" class="form-control">
+              <p class="error" *ngIf="newStaffForm.get('password').touched && newStaffForm.get('password').hasError('required')">This field is required</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 col-sm-4">
+              <button [disabled]="newStaffForm.invalid" [appLoading]="promiseNewStaff" class="btn btn-primary btn-fill btn-darkslateblue">SUBMIT</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

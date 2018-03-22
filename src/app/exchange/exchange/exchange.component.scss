@@ -1,0 +1,75 @@
+.big-title {
+  margin-bottom: 10px;
+  text-transform: capitalize;
+  font-weight: 500;
+}
+
+.text-off-green {
+  color: #3b753b!important;
+}
+
+.text-off-red {
+  color: rgb(219, 56, 52) !important;
+}
+
+.my-overlay {
+  position: fixed;
+  top: 0;
+  bottom: -9999px;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1040;
+}
+
+#collapseSummary   {
+  .covering {
+    border-bottom: 1px dashed #9a9a9a;
+    margin-top: 3px;
+    padding-bottom: 11px;
+    margin-bottom: 10px;
+
+    .title {
+      font-size: 20px;
+      font-weight: bold;
+      display: inline-block;
+      text-transform: uppercase;
+    }
+    .coin-market-subtitle {
+      position: absolute;
+      top: 0;
+      right: 15px;
+      font-size: 11px;
+      padding-right: 24px;
+      color: #424242;
+    }
+    .coin-base-market {
+      position: absolute;
+      top: 14px;
+      right: 15px;
+      font-size: 16px;
+      padding-right: 24px;
+      color: black;
+    }
+    .stat-status {
+      float: right;
+      position: absolute;
+      right: 10px;
+      top: 10px;
+    }
+  }
+}
+
+.text-black {
+  color: #000;
+}
+
+.header-style {
+  padding: 15px;
+  border-bottom: 1px solid rgba(0,0,0,.125);
+}
+
+#accordionMarketHistory, #accordionMyOpenOrder, #accordionMyMarketHistory,
+#collapseMarketHistory, #collapseMyOpenOrder, #collapseMyMarketHistory {
+  overflow: auto;
+} 

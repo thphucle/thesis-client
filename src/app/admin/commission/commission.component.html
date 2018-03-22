@@ -1,0 +1,79 @@
+
+<div class="token-wrap">
+    <div class="box box-primary">
+      <div class="box-header">
+        <h4 class="box-title title-darkslateblue bold">COMMISSION</h4>    
+      </div>
+      <div class="box-body">
+        <form class="form-inline toolbar">
+          <div class="form-group">
+            <label for="username" class="title-darkslateblue">Username:</label>
+            <input 
+              appInputTyping
+              [delay]="1000" 
+              type="text" 
+              class="form-control" 
+              (inputChange)="filterByUsername($event)"/>
+          </div>
+          <div class="form-group">
+            <label for="limit" class="title-darkslateblue">Per page:</label>
+            <select name="perpage" id="limit" [(ngModel)]="limit" (change)="changeLimit($event)">
+              <option *ngFor="let l of limitOptions" [value]="l">{{l}}</option>
+            </select>
+          </div>
+        </form>
+        <ngx-datatable 
+          class="material"
+          [rows]="data"        
+          [columnMode]="'force'"
+          [headerHeight]="32"
+          [footerHeight]="32"
+          [rowHeight]="'auto'"
+          [scrollbarH]="true"
+          [sortType]="'single'"       
+          [limit]="limit">
+  
+          <ngx-datatable-column prop="User.username" name="Username">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              <span>{{value}}</span>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column prop="downline.username" name="Downline">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              <span>{{value}}</span>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column prop="level" name="Level">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              <span>{{value + 1}}</span>
+            </ng-template>
+          </ngx-datatable-column>
+  
+          <ngx-datatable-column prop="ctu" name="CTU">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              <span>{{value | number: '1.0-2'}}</span>
+            </ng-template>
+          </ngx-datatable-column>
+          
+          <ngx-datatable-column prop="type" name="Type">
+            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+              <span class="label" [ngClass]="{'label-info': value == 'direct', 'label-success': value == 'indirect', 'label-primary': value == 'connection'}">{{value}}</span>              
+            </ng-template>
+          </ngx-datatable-column>
+          
+          <ngx-datatable-column prop="created_at" name="Created At">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              <span>{{value | date: 'MM/dd/yyyy HH:mm:ss'}}</span>              
+            </ng-template>
+          </ngx-datatable-column>
+        </ngx-datatable>
+  
+        
+      </div>
+    </div>
+  </div>
+  
+  
+  

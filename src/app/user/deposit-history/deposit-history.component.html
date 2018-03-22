@@ -1,0 +1,55 @@
+<div class="token-wrap">
+  <router-outlet>
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title text-center">DEPOSIT HISTORY</h4>
+      </div>
+      <div class="card-body">
+        <div class="toolbar text-center">
+          <div class="btn-group" role="group" aria-label="wallets">
+            <button (click)="changeTab('bitcoin')" [class.btn-fill]="currentTab === 'bitcoin'" type="button" class="btn btn-primary">BTC Wallet</button>
+            <button (click)="changeTab('bitdeal')" [class.btn-fill]="currentTab === 'bitdeal'" type="button" class="btn btn-primary">CTU Wallet</button>
+          </div>
+        </div>
+        <app-filter (currentActiveChange)="filterDate($event)" (onReset)="filterDate($event)">
+        </app-filter>
+        <app-spinner-container name="bitdeal-deposit-list" group="bitdeal-deposit-list">
+          <div [class.active]="isShowTable" class="table-smooth">
+            <table class="table display responsive no-wrap table-striped" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+              <thead>
+                <tr>
+                  <th>Deposit ID</th>
+                  <th>Transaction ID</th>
+                  <th>Amount</th>
+                  <th>Confirmations</th>
+                  <th>Created At</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of filtered">
+                  <td>
+                    <strong>#{{row.id | padZero: 5}}</strong>
+                  </td>
+                  <td>
+                    <span class="word-break">
+                      <a class="transaction-id" target="_blank" href="{{(row.currency == 'bitdeal' ? 'https://explorer.bitdeal.co.in/tx/' : 'https://blockexplorer.com/tx/') + row.tx_id}}">{{row.tx_id}}</a>
+                    </span>
+                  </td>
+                  <td>
+                    <span>{{row.amount | number: '.8'}}</span>
+                  </td>
+                  <td>
+                    <span class="label" [ngClass]="{'label-success': row.status == 'completed', 'label-default': row.status == 'pending'}">{{row.status == 'pending' ? 0 : 1}}/1</span>
+                  </td>
+                  <td>
+                    <span>{{row.created_at | date: 'MM/dd/yyyy HH:mm:ss'}}</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </app-spinner-container>
+      </div>
+    </div>
+  </router-outlet>
+</div>

@@ -1,0 +1,48 @@
+<ng-container *ngIf="data">
+  <div class="form-group row bounty-program">
+    <label class="col-12 col-sm-3 col-form-label title-darkslateblue label-control">{{data.title}}</label>
+    <div class="col-11 col-sm-8">
+      <input [(ngModel)]="url_input" type="text" name="url" placeholder="Paste your post's links here..." class="form-control" (keyup.enter)="onEnter()">
+      <p class="describe">{{data.description}}</p>
+      <app-spinner-container name="commission-list" group="commission-list">
+        <ngx-datatable
+        ngx-resize-watcher
+          class="material"
+          [rows]="bounties"
+          [columnMode]="'force'"
+          [headerHeight]="50"
+          [footerHeight]="50"
+          [rowHeight]="'auto'"
+          [sortType]="'single'"
+          [limit]="5">
+          <ngx-datatable-column [width]="50" prop="amount" name="Reward">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              <span>{{row.amount}}</span>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column [width]="400"  prop="url" name="Url">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              <span>{{row.url}}</span>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column [width]="50"  prop="type" name="Status">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                <span  class="badge" [ngClass]="{'badge-success': row.status == 'accepted', 'badge-warning': row.status == 'pending', 'badge-danger': row.status == 'rejected'}">{{row.status}}</span>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column  prop="created_at" name="Uploaded at">
+            <ng-template  let-row="row" ngx-datatable-cell-template>
+              <span>{{row.created_at | date: 'yyyy-MM-dd HH:mm:ss'}}</span>
+            </ng-template>
+          </ngx-datatable-column>
+        </ngx-datatable>
+      </app-spinner-container>
+    </div>
+    <div class="col-1 col-sm-1">
+        <button [appLoading]="promiseUploadUrl" (click)="addRow()" type="button" class="col-2 btn btn-sm btn-default btn-darkslateblue pull-right add-url">+</button>
+    </div>
+  </div>
+</ng-container>

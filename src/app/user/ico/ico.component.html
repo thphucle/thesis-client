@@ -1,0 +1,90 @@
+<div class="token-wrap">
+  
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title text-center">BUY PROMOTION PACKAGES</h4>
+    </div>
+    <div class="card-body">
+      <div class="row justify-content-center">
+        <div *ngFor="let pack of icoPackagesConfig" class="col-12 col-sm-4 equal-height">
+          <div *ngIf="isOpenIco == 2" (click)="currentPack = pack.name" [class]="'ico-package ' + 'pack-' + pack.name">
+            <i *ngIf="currentPack === pack.name" class="fa fa-check-circle-o"></i>            
+            <div class="content">
+              <p class="title">
+                ${{pack.price | number: '.0'}}
+              </p>
+              <p *ngIf="rate_btc_usd" class="subtitle subtitle-small">
+                {{(pack.price/rate_btc_usd) | number: '.4'}} BTC / Bonus {{pack.bonus_rate}}%
+              </p>              
+            </div>
+          </div>
+          <div *ngIf="isOpenIco !== 2" [class]="'ico-package ' + 'pack-' + pack.name">
+            <i *ngIf="currentPack === pack.name" class="fa fa-check-circle-o"></i>            
+            <div class="content">
+              <p class="title">
+                ${{pack.price | number: '.0'}}
+              </p>
+              <p *ngIf="rate_btc_usd" class="subtitle subtitle-small">
+                {{(pack.price/rate_btc_usd) | number: '.4'}} BTC / Bonus {{pack.bonus_rate}}%
+              </p>              
+            </div>
+          </div>
+        </div>        
+      </div>
+
+      <div *ngIf="isOpenIco == 2" class="row justify-content-center mt-4">
+        <div class="col-12 col-sm-4">
+          <button [appLoading]="buyPackageReq" (click)="buyIcoPackage(currentPack)" class="btn btn-fill btn-primary btn-block">SUBMIT</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title text-center">PROMOTION PACKAGES HISTORY</h4>
+    </div>
+    <div class="card-body">
+      
+      <app-spinner-container name="ioc-package-list" group="ico-package-list">
+        <div [class.active]="isShowTable" class="table-smooth">
+          <table class="table display responsive no-wrap table-striped" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Package</th>
+                <th>Amount (BTC)</th>
+                <th>CTU</th>
+                <th>Status</th>
+                <th>Created At</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of icoPackages; let i = index">
+                <td>
+                  <strong>{{i}}</strong>
+                </td>
+                <td>
+                  <strong>${{row.package_name | number: '.0'}}</strong>
+                </td>
+                <td>
+                  <span>{{(row.usd / row.rate_btc_usd) | number: '.0-4'}}</span>
+                </td>
+                <td>
+                  <span>{{(row.ctu * (1 + row.bonus_rate/100)) | number: '.0-4'}}</span>
+                </td>
+                <td>
+                  <span class="label" [ngClass]="{'label-success': row.status == 'confirmed', 'label-default': row.status == 'pending'}">{{row.status}}</span>
+                </td>
+                <td>
+                  <span>{{row.created_at | date: 'MM/dd/yyyy HH:mm:ss'}}</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </app-spinner-container>
+
+    </div>
+  </div>
+</div>

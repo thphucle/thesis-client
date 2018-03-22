@@ -1,0 +1,132 @@
+@import '../../../variables.scss';
+
+.file-upload-comp {
+  .drop-zone {
+    padding: 24px 10px;
+
+    .drop-zone-text {
+      margin: 10px 0;
+    }
+
+    .btn-upload {
+      float: left;
+      color: $darkslateblue;
+      border-color: $darkslateblue;
+      background-color: white;
+      &:focus, &:active {
+        color: white;
+        background-color: $darkslateblue;
+      }
+    }
+  }
+
+  .file-item {
+    height: 90px;
+    width: 90px;
+    float: left;
+    background: center center no-repeat;
+    background-size: contain;
+    margin: 5px;
+    position: relative;
+    border: 1px solid #ddd;
+    margin-bottom: 0;
+    
+    .file-upload-overlay {
+      background-color: #000;
+      bottom: 0;
+      left: 0;
+      opacity: .7;
+      position: absolute;
+      right: 0;
+      top: 0;
+
+      .file-upload-spinner {
+        height: 30px;
+        width: 30px;
+        margin: auto;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        border-radius: 50%;
+        border: 3px solid rgba(255, 255, 255, 0);
+        border-top: 3px solid #FFF;
+        border-right: 3px solid #FFF;
+        animation: spinner 2s infinite cubic-bezier(0.085, 0.625, 0.855, 0.360);
+      }
+    }
+
+    .file-upload-x {
+      background-color: #000;
+      border-radius: 2px;
+      color: #FFF;
+      cursor: pointer;
+      float: right;
+      line-height: 20px;
+      font-size: 20px;
+      margin: 2px;
+      opacity: .7;
+      width: 20px;
+      text-align: center;
+    }
+  }
+
+  &.inline {
+    .drop-zone {
+      width: calc(100% - 100px);
+      float: left;
+      margin-top: 4px;
+
+      .drop-zone-text {
+        font-size: 18px;
+      }
+    }
+
+    .file-list {
+      float: left;
+      width: 100px;
+    }
+  }
+
+}
+
+@keyframes spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 425px) {
+  .file-upload-comp {
+    .drop-zone {
+      padding: 10px;
+  
+      .drop-zone-text {
+        margin: 10px 0;
+      }
+  
+      .btn-upload {
+        float: none;
+      }
+    }
+
+    &.inline {
+      .drop-zone {
+        width: 100%;
+        float: none;
+      }
+
+      .file-list {
+        float: none;
+        width: 100%;
+      }
+    }
+  }
+}

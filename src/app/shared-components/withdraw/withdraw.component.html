@@ -1,0 +1,46 @@
+<div class="token-wrap">
+  <div class="card card-primary">
+    <div class="card-header">
+      <h4 class="card-title">WITHDRAW HISTORY</h4>
+    </div>
+    <div class="card-body">      
+      <app-spinner-container name="withdraw-list" group="withdraw-list">
+        <div [class.active]="isShowTable" class="table-smooth">
+          <table class="table display responsive no-wrap table-striped" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+            <thead>
+              <tr>
+                <th>Transaction ID</th>
+                <th>Receive Address</th>
+                <th>Amount</th>                
+                <th>Status</th>
+                <th>Created At</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let withdraw of withdraws">
+                <td>
+                  <span *ngIf="withdraw.tx_id" class="word-break">
+                    <a class="transaction-id" target="_blank" href="{{blockExplorerUrl}}/tx/{{withdraw.tx_id}}">{{withdraw.tx_id}}</a>
+                  </span>
+                  <span *ngIf="!withdraw.tx_id">N/A</span>
+                </td>
+                <td>
+                  <span class="word-break">
+                    <a target="_blank" href="{{blockExplorerUrl}}/address/{{withdraw.address}}">{{withdraw.address}}</a>
+                  </span>
+                </td>
+                <td>{{withdraw.amount}}</td>
+                <td>
+                  <span class="badge" [ngClass]="{'badge-success': withdraw.status == 'completed', 'badge-default': withdraw.status == 'pending'}">{{withdraw.status}}</span>
+                </td>
+                <td>
+                  <span>{{withdraw.created_at | date: 'MM/dd/yyyy HH:mm:ss'}}</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </app-spinner-container>
+    </div>
+  </div>
+</div>

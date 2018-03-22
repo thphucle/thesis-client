@@ -1,0 +1,170 @@
+<div class="card">
+  <div class="card-header">
+    <h4 class="card-title title-darkslateblue bold">VERIFY ACCOUNTS</h4>
+  </div>
+  <div class="card-body">
+    <div class="mb-4">     
+      <form [formGroup]="filterForm" (ngSubmit)="filter()" class="mt-4">
+        <div class="row">
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="form-group">
+              <label for="username title-darkslateblue">Username:</label>
+              <input type="text" class="form-control" formControlName="username" />
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="form-group">
+              <label class="title-darkslateblue">Status</label>
+              <select formControlName="status" class="form-control">
+                <option value="">All</option>
+                <option value="pending">Pending</option>
+                <option value="verified">Verified</option>
+                <option value="rejected">Rejected</option>                  
+              </select>
+            </div>
+          </div>
+          <!-- <div class="col-12 col-sm-6 col-md-3">
+            <div class="form-group">
+              <label for="from">From </label>
+              <owl-date-time name="from-date" [autoClose]="true" formControlName="from_date" [dateFormat]="'YYYY-MM-DD'" [type]="'calendar'"
+                [placeHolder]="'yyyy/mm/dd'" [inputId]="'input-from-date'"></owl-date-time>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="form-group">
+              <label for="to">To </label>
+              <owl-date-time name="to-date" [autoClose]="true" formControlName="to_date" [dateFormat]="'YYYY-MM-DD'" [type]="'calendar'"
+                [placeHolder]="'yyyy/mm/dd'" [inputId]="'input-to-date'"></owl-date-time>
+            </div>
+          </div> -->
+        </div>          
+
+        <div class="row justify-content-center">
+          <div class="col-12 col-sm-3">
+            <button [appLoading]="filterPromise" type="submit" class="btn btn-primary btn-fill btn-block btn-darkslateblue">Apply</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  
+    <div #tableWrapper>
+
+      <ngx-datatable 
+        ngx-resize-watcher
+        class="material"
+        [rows]="rows"
+        [columnMode]="'force'"
+        [headerHeight]="50"
+        [footerHeight]="50"
+        [rowHeight]="'auto'"
+        [scrollbarH]="true"
+        [sortType]="'single'"
+        [externalPaging]="true" 
+        [count]="pagination.total" 
+        [offset]="pagination.page" 
+        [limit]="pagination.perpage" 
+        (page)="setPage($event)">
+  
+        <ngx-datatable-column prop="User.username" name="Username">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <ng-container *ngIf="role !== 'admin'">
+              <span class="label label-info label-md">{{row.User && row.User.username}}</span>
+            </ng-container>
+            <a *ngIf="role === 'admin'" routerLink="/admin/user-management/{{row.user_id}}">
+              <span class="label label-info label-md">{{row.User && row.User.username}}</span>
+            </a>
+          </ng-template>
+        </ngx-datatable-column>
+  
+        <ngx-datatable-column width="" name="Pictures">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <ul class="ident-image-list">
+              <li *ngFor="let identImage of row.IdentityImages">
+                <div (click)="viewImageClick(row, identImage)" class="ident-image small" [style.background-image]="'url(' + identImage.Image.thumbnail + ')'"></div>
+              </li>
+            </ul>
+          </ng-template>
+        </ngx-datatable-column>
+  
+        <ngx-datatable-column prop="status" name="Status">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <span class="badge" [ngClass]="{'badge-success': row.status == 'verified', 'badge-warning': row.status == 'pending', 'badge-danger': row.status == 'rejected'}">{{row.status}}</span>
+          </ng-template>
+        </ngx-datatable-column>     
+        
+        <ngx-datatable-column prop="created_at" name="Created At">
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            <span>{{value | date: 'MM/dd/yyyy HH:mm:ss'}}</span>              
+          </ng-template>
+        </ngx-datatable-column>
+  
+        <ngx-datatable-column name="Actions">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <ng-container *ngIf="row.status == 'pending'">
+              <button [appLoading]="promiseVerify" (click)="verifyBtnClick(row)" class="btn btn-fill btn-sm btn-darkslateblue">Verify</button>
+              <button (click)="rejectBtnClick(row)" class="btn btn-danger btn-fill btn-sm">Reject</button>
+            </ng-container>
+          </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
+    </div>
+  </div>
+</div>
+
+<app-modal *ngIf="currentIdent" [(visible)]="isShowConfirmDialog" (visibleChange)="rejectModalChange()">
+  <div app-modal-header>
+    <h5 class="modal-title">Reject Message</h5>    
+  </div>
+  <div app-modal-body>
+    <form (ngSubmit)="reject(currentIdent)">
+      <div class="form-group">
+        <label for="note">Why is this identity verification failed?</label>
+        <textarea class="form-control" [(ngModel)]="note" name="note" id="note" rows="5"></textarea>
+      </div>      
+    </form>
+    
+  </div>
+  <div app-modal-footer>
+    <button type="button" class="btn btn-secondary" (click)="closeBtnClick()">Close</button>
+    <button [disabled]="!note" [appLoading]="promiseReject" type="button" class="btn btn-primary btn-fill" (click)="reject(currentIdent)">REJECT</button>
+  </div>
+</app-modal>
+
+
+<app-modal *ngIf="currentIdent" classSize="modal-lg" [(visible)]="isShowViewImage" (visibleChange)="viewImageModalChange()">
+  <div app-modal-header>
+    <h5 class="modal-title">
+      <a routerLink="/admin/user-management/{{currentIdent.user_id}}">            
+        <span class="">{{currentIdent.User && currentIdent.User.username}}</span>
+      </a>
+    </h5>
+  </div>
+  <div app-modal-body>
+    <form *ngIf="currentIdentImage.type == 'national_ident'">
+      <div class="form-group row">
+        <label class="col-12 col-sm-3">Document number</label>
+        <div class="col-12 col-sm-9">{{currentIdent.document_number}}</div>
+      </div>
+    </form>
+    <div *ngIf="currentIdentImage.Image; else noimage" class="ident-image" [style.background-image]="'url(' + currentIdentImage.Image.src + ')'"></div>
+    <ng-template #noimage>
+      Picture is not available
+    </ng-template>
+  </div>  
+</app-modal>
+
+<app-modal *ngIf="errorMessage" [(visible)]="isShowError" (visibleChange)="errorDialogChange($event)">
+  <div app-modal-header>
+    <h5 class="modal-title">
+      <i class="icon error" class="fa fa-exclamation-triangle"></i>
+      ERROR</h5>
+  </div>
+  <div app-modal-body>
+    <div class="alert alert-danger">
+      <p>{{errorMessage}}</p>
+    </div>
+  </div>
+  <div app-modal-footer>
+    <button type="button" class="btn btn-secondary" (click)="isShowError = false">Close</button>  
+  </div>
+</app-modal>

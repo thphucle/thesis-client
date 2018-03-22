@@ -1,0 +1,28 @@
+.trade-ctu-form {
+  .icon {
+    width: 18px;
+  }
+
+  .fix-height {
+    height: 44px;
+  }
+  
+  .mnw100 {
+    min-width: 100px;
+  }
+
+  .card-header {
+    padding: 10px;
+    .card-title {
+      color: #fff;
+    }
+  }
+
+  .form-group {
+    margin-bottom: 5px;
+
+    .error {
+      margin: 0;
+    }
+  }
+}

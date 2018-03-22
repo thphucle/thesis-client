@@ -1,0 +1,112 @@
+<div class="verify-wrap">
+  <div class="card card-primary">
+    <div class="card-header">      
+      <h4 class="card-title text-left title-darkslateblue bold">KYC REGISTER</h4>
+    </div>
+    <div class="card-body">
+        <div id="status-kyc" class="jumbotron">
+          <h4 class="verify-status">Identity Verification Status:
+            <span *ngIf="user && user.identity_status;else notuploaded" class="badge" [ngClass]="{'badge-success': user.identity_status == 'verified', 'badge-warning': user.identity_status == 'pending', 'badge-danger': user.identity_status == 'rejected'}">{{user.identity_status}}</span>
+            <ng-template #notuploaded>NOT UPLOADED</ng-template>
+            <p *ngIf="identityRequest && identityRequest.note && identityRequest.status == 'rejected'">Reason: {{identityRequest.note}}</p>        
+          </h4>
+        </div>
+        <ng-container *ngIf="user && user.identity_status !== 'verified'">
+          <div class="error" style="font-size: 14px;">
+              /*<br />
+              &nbsp; The verification picture needs to satisfy these conditions: <br />
+              &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;- Has not been modified<br />
+              &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;- Is not blurred<br />
+              &nbsp; Picture that does not satisfy any of the above will not be considered.<br />
+              &nbsp;*/ <br />
+          </div>
+
+          <h4>Please submit photos:</h4>
+          <div class="stage" [class.uploaded]="!!user.identity_status">
+            <div [@stepAnimation]="orientation" *ngIf="currentStep == 1" class="box no-border">
+              <div class="box-body">
+                <div class="sample-img text-center">
+                  <img src="/assets/images/verify-step1.png" alt="verify_sample">
+                </div>
+
+                <p class="">Please provide a picture of your national ID, passport.</p>
+                <form>
+                  <div class="form-group row">
+                    <label class="col-12 col-sm-3 title-darkslateblue label-control">Picture</label>
+                    <div class="col-12 col-sm-9 text-center">
+                        <a *ngIf="identityRequest" class="ident-image mb-2" [style.background-image]="'url(' + identityRequestImage.national_ident + ')'" target="_blank" href="{{identityRequestImage.national_ident}}"></a>
+                      
+                      <app-fileupload [inline]="true" [multiple]="false" [allowExtensions]="['png', 'jpeg', 'jpg']" [(files)]="idImages" (filesChange)="filesChange($event, 'id')"
+                        [textConfig]="uploadTextConfig">
+                      </app-fileupload>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-12 col-sm-3 title-darkslateblue label-control">ID/Passport Number</label>
+                    <div class="col-12 col-sm-9">
+                      <input type="text" class="form-control" name="nid" [(ngModel)]="formData.nid" (ngModelChange)="nidChange()">
+                    </div>
+                  </div>
+                </form>            
+              </div>
+            </div>
+
+            <div [@stepAnimation]="orientation" *ngIf="currentStep == 2" class="box no-border">
+              <div class="box-body">
+                <div class="sample-img text-center">
+                  <img src="/assets/images/verify-step2.png" alt="verify_sample">
+                </div>
+
+                <p class="">Please provide a picture of you holding your national ID, passport.</p>
+                <form>
+                  <div class="form-group row">
+                    <label class="col-12 col-sm-3 title-darkslateblue label-control">Picture</label>
+                    <div class="col-12 col-sm-9">
+                        <a *ngIf="identityRequest" class="ident-image mb-2" [style.background-image]="'url(' + identityRequestImage.face_ident + ')'" target="_blank" href="{{identityRequestImage.face_ident}}"></a>                  
+                      <app-fileupload [inline]="true" [textConfig]="uploadTextConfig" [multiple]="false" [allowExtensions]="['png', 'jpeg', 'jpg']" [(files)]="faceIdImages"
+                        (filesChange)="filesChange($event, 'face')">
+                      </app-fileupload>
+                    </div>
+                  </div>
+                </form>
+                
+              </div>
+            </div>
+
+            <div [@stepAnimation]="orientation" *ngIf="currentStep == 3" class="box no-border">
+              <div class="box-body">
+                <div class="sample-img text-center">
+                  <img src="/assets/images/verify-step3.png" alt="verify_sample">
+                </div>
+
+                <p class="">Please provide a picture of a note containing the text: "Contractium Verification" with your national ID, passport.</p>
+                <form>
+                  <div class="form-group row">
+                    <label class="col-12 col-sm-3 title-darkslateblue label-control">Picture</label>
+                    <div class="col-12 col-sm-9">
+                      <a *ngIf="identityRequest" class="ident-image mb-2" [style.background-image]="'url(' + identityRequestImage.text_ident + ')'" target="_blank" href="{{identityRequestImage.text_ident}}"></a>
+                      <app-fileupload [inline]="true" [textConfig]="uploadTextConfig" [multiple]="false" [allowExtensions]="['png', 'jpeg', 'jpg']" [(files)]="textIdImages"
+                        (filesChange)="filesChange($event, 'text')">
+                      </app-fileupload>
+                    </div>
+                  </div>
+                </form>            
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt-2">
+            <div class="col-6 justify-content-center">
+              <div class="text-left">
+                <button [disabled]="currentStep === 1" (click)="prevStep()" class="btn btn-primary btn-darkslateblue">BACK</button>
+                <button [disabled]="currentStep >= 2" [disabled]="disableNextBtn" (click)="nextStep()" class="btn btn-primary btn-darkslateblue">NEXT</button>          
+              </div>
+            </div>
+            <div class="col-6 text-right">
+              <button [appLoading]="submitPromise" type="button" (click)="submit()" class="btn btn-primary btn-fill btn-darkslateblue">SUBMIT</button>
+            </div>
+          </div>
+        </ng-container>
+    </div>
+  </div>
+</div>

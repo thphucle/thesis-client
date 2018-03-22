@@ -1,0 +1,68 @@
+
+.ico-package {
+  position: relative;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #eee;
+  display: flex;
+  transition: background-color linear 0.2s;
+  cursor: pointer;
+
+  .fa.fa-check-circle-o {
+    color: green;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    font-size: 20pt;
+  }
+  
+  .icon {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+  }
+
+  .content {
+    
+    .title {
+      font-size: 34pt;
+      font-weight: 600; 
+      color: white;     
+    }
+
+    .subtitle {
+      color: white;
+      font-size: 18pt;      
+    }
+  }
+}
+
+.ico-package.pack-10000 {
+  background-color: orange;
+  &.active, &:hover {
+    background-color: darken(orange, 10%);
+  }
+}
+
+.ico-package.pack-50000 {
+  background-color: #DB3834;
+  &.active, &:hover {
+    background-color: darken(#DB3834, 10%);
+  }
+}
+
+@media (max-width: 425px) {
+  .ico-package {
+    margin-bottom: 15px;
+
+    .content {
+      .title {
+        font-size: 24pt;
+      }
+
+      .subtitle {
+        font-size: 14pt;
+      }
+    }
+  }
+}

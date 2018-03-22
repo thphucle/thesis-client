@@ -1,0 +1,10 @@
+@import '../../../../variables.scss';
+.nav-tabs {
+  .nav-link {
+    color: black;
+    &.active {
+      color: $darkslateblue;
+      font-weight: 550;
+    }
+  }
+}

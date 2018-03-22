@@ -1,0 +1,73 @@
+<div class="statistic">
+  <div class="row">
+    <div class="col-12 col-md-4 ">
+      <div class="card">
+        <div class="box-stat">
+          <div class="icon">
+            <img src="/assets/images/i-block-1.png" alt="">
+          </div>
+          <div class="content">
+            <p class="title">DEPOSIT BTC</p>
+            <p *ngIf="stat" class="value">{{stat.total_deposit_btc | number: '.0-4'}}</p>
+            <p *ngIf="!stat" class="value">Loading...</p>
+            <p class="currency">BTC</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-4">
+      <div class="card">
+        <div class="box-stat">
+          <div class="icon">
+            <img src="/assets/images/i-block-1.png" alt="">
+          </div>
+          <div class="content">
+            <p class="title">DEPOSIT CTU</p>
+            <p *ngIf="stat" class="value">{{stat.total_deposit_ctu | number: '.0-4'}}</p>
+            <p *ngIf="!stat" class="value">Loading...</p>
+            <p class="currency">CTU</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="card">
+  <div class="card-header">
+    <h4 class="card-title text-center">
+      STATISTIC PROMOTION
+    </h4>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <app-spinner-container name="ico-stat" group="statistics-get">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Total Packages</th>
+              <th>Total BTC</th>
+              <th>Confirmed Packages</th>
+              <th>Confirmed BTC</th>
+              <th>Confirmed 10k</th>
+              <th>Confirmed 50k</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let stat of icoStatistics">
+              <td>{{stat.time}}</td>
+              <td>{{stat.total_packages}}</td>
+              <td>{{stat.total_btc | number: '.0-4'}}</td>
+              <td>{{stat.confirmed_packages}}</td>
+              <td>{{stat.confirmed_btc | number: '.0-4'}}</td>
+              <td>{{stat.confirmed_package_10k}}</td>
+              <td>{{stat.confirmed_package_50k}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </app-spinner-container>
+    </div>
+  </div>
+</div>

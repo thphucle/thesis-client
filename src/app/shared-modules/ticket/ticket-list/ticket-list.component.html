@@ -1,0 +1,55 @@
+<div class="ticket-list">
+  <div class="row">
+    <div class="col-xs-12 col-sm-4 equal-height">
+      <div class="box box-widget">
+        <div class="box-header">
+          <div class="toolbar">
+            <div class="tag-list">
+              <span *ngFor="let stat of stats" (click)="filterStatus(stat.status)" class="tag tag-with-number" [ngClass]="{'fill-background': currentFilterStatus == stat.status}">
+                <span class="text">{{stat.status.toUpperCase()}}</span>
+                <span class="number">{{stat.total}}</span>
+              </span>
+            </div>
+          </div>
+          <a routerLink='/{{userRole}}/support/create' class="btn btn-primary pull-right btn-sm">NEW</a>
+        </div>
+        <div class="box-body">
+          <app-spinner-container name="ticket-list" group="ticket-list">
+            <ul class="nav nav-stacked">
+              <li *ngIf="!tickets || !tickets.length">
+                <a class="text-center ticket-item">
+                  No Tickets
+                </a>
+              </li>
+              <li *ngFor="let ticket of tickets">
+                <a (click)="currentTicketId = ticket.id" [ngClass]="{active: currentTicketId == ticket.id}" class="ticket-item" [ngClass]="{'new': ticket.status == 'new'}"
+                  routerLink="/{{userRole}}/support/{{ticket.id}}">
+                  <div class="avatar">
+                    <div class="img-fluid background-img" [style.background-image]="'url(' + ticket.from.avatar + ')'"></div>
+                  </div>
+                  <div class="ticket">
+                    <span class="ticket-header">
+                      <span class="username">
+                        {{ticket.from.username}}
+                      </span>
+                      <span class="small">{{ticket.updated_at | date: 'HH:mm - MM/dd/yyyy'}}</span>
+                    </span>
+                    <span class="ticket-title">{{ticket.title}}</span>
+                    <span [ngClass]="{'red': ticket.status == 'new', 'blue': ticket.status == 'replied', 'gray': ticket.status == 'closed'}"
+                      class="tag fill ticket-status ticket-id">#{{ticket.id | padZero: 4}}</span>
+                  </div>
+
+                </a>
+              </li>
+            </ul>
+          </app-spinner-container>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-8">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+
+
+</div>

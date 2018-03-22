@@ -1,0 +1,19 @@
+<app-chat
+  (onSubmit)="reply($event)"
+  [ticket]="ticket"
+  [replies]="ticket.replies"
+  (changeStatusEvent)="changeStatus($event)"
+  [toolbarButtons]="buttonsConfig"
+  [editor]="editorType"
+  (uploadImage)="uploadImage($event)"
+>
+  <div class="ticket-detail">
+
+    <a *ngIf="ticket.from && user.role == 'admin'" routerLink="/admin/user-management/{{ticket.from.id}}" class="label label-info label-lg">
+      {{ticket.from.fullname}} | {{ticket.from.id}}
+    </a>
+    <h4>{{ticket.title}}</h4>
+    <div class="message" [innerHtml]="ticket.message"></div>
+  </div>
+
+</app-chat>

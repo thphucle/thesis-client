@@ -1,0 +1,71 @@
+<div class="row justify-content-md-center">
+  <div class="col col-xs-12 col-md-6">
+    <div class="card">
+      <div class="logo">
+        <img src="/assets/images/logo.svg" alt="logo">
+      </div>
+      <form (ngSubmit)="register()" [formGroup]="registerForm">      
+        <div class="form-group">          
+          <input formControlName="username" type="text" class="form-control" placeholder="Username" value="michael23">
+          <p class="error" *ngIf="registerForm.get('username').touched && registerForm.get('username').hasError('required')">This field is required</p>
+          <p class="error" *ngIf="registerForm.get('username').touched && registerForm.get('username').hasError('pattern')">Username must be at least 6 characters, only contains lowercase character (a-z), digit (0-9) and underscore(_)</p>
+        </div>  
+        <div class="form-group">          
+          <input formControlName="email" id="email" type="email" class="form-control" placeholder="Email">
+          <p class="error" *ngIf="registerForm.get('email').touched && registerForm.get('email').hasError('required')">This field is required</p>
+        </div>
+        <div class="form-group">          
+          <input formControlName="password" id="pw" type="password" class="form-control" placeholder="Password">
+          <p class="error" *ngIf="registerForm.get('password').touched && registerForm.get('password').hasError('required')">This field is required</p>
+          <p class="error" *ngIf="registerForm.get('password').touched && registerForm.get('password').hasError('pattern')">Password must contain at least six characters</p>
+        </div>
+        <div class="form-group">          
+          <input formControlName="repeat_password" id="repeat-pw" type="password" class="form-control" placeholder="Repeat password">
+          <p class="error" *ngIf="registerForm.get('repeat_password').touched && registerForm.get('repeat_password').hasError('required')">This field is required</p>
+          <p class="error" *ngIf="registerForm.get('repeat_password').touched && registerForm.get('repeat_password').hasError('notMatch')">Passwords are not match</p>
+        </div>
+        <div class="form-group">         
+          <input formControlName="fullname" type="text" class="form-control" placeholder="Your fullname">
+          <p class="error" *ngIf="registerForm.get('fullname').touched && registerForm.get('fullname').hasError('required')">This field is required</p>
+        </div>
+        <div class="form-group">          
+          <input class="form-control" type="text" disabled [value]="referral">
+        </div>
+        <div class="form-group">
+          <select class="form-control" formControlName="parent_branch" name="branch" id="branch">
+            <option value="left">Left</option>
+            <option value="right">Right</option>
+          </select>
+        </div>
+       
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">              
+              <select formControlName="national" id="national" class="form-control">
+                <option *ngFor="let national of nations" [value]="national.value">{{national.name}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="form-group">              
+              <div class="input-group">
+                <span class="input-group-addon" id="basic-addon1">{{registerForm.get('national').value}}</span>
+                <input formControlName="phone" type="text" class="form-control" placeholder="Phone number" aria-describedby="basic-addon1">
+              </div>
+              <p class="error" *ngIf="registerForm.get('phone').touched && registerForm.get('phone').hasError('required')">This field is required</p>
+              <p class="error" *ngIf="registerForm.get('phone').touched && registerForm.get('phone').hasError('pattern')">Phone number invalid</p>
+
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <button [appLoading]="registerReq" [disabled]="registerForm.invalid" type="submit" class="btn btn-danger btn-fill btn-block">REGISTER</button>
+        </div>
+        <div class="form-group text-center">
+          Already have account? <a class="link" routerLink="/login">Login</a>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>

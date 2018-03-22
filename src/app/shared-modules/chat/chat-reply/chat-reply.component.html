@@ -1,0 +1,18 @@
+<div class="direct-chat-msg" [ngClass]="{'right': reply.who == 'me'}">  
+  <!-- /.direct-chat-info -->
+  <img class="direct-chat-img" src="{{reply.user.avatar}}" alt="Message User Image"><!-- /.direct-chat-img -->
+  <div class="direct-chat-info clearfix">
+    <div>
+      <span class="direct-chat-name">
+        {{reply.user.name}}
+      </span>
+      <span class="direct-chat-timestamp">
+        {{reply.created_at | date: 'MM/dd/yyyy HH:mm:ss'}}
+      </span>
+    </div>
+    <div class="direct-chat-text" [innerHtml]="reply.message">
+    </div>
+    
+  </div>
+  <!-- /.direct-chat-text -->
+</div>

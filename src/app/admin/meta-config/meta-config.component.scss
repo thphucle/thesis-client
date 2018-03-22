@@ -1,0 +1,19 @@
+.card {
+  form {
+    .lending-rate {
+      label {
+        text-align: right;
+        width: 110px;
+      }
+
+      input {
+        text-align: right;
+        width: 110px;
+      }
+       [class*="col-"]:first-child {
+         padding-left: 6px;
+       }
+    }
+  }
+
+}

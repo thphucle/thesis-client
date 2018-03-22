@@ -1,0 +1,120 @@
+<div class="row">
+    <div class="col-12 col-sm-6">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title title-darkslateblue bold">Profile</h4>
+            </div>
+            <div class="card-body">
+              <form action="">
+                <div class="form-group">
+                  <label class="title-darkslateblue">Username</label>
+                  <span>{{user.username}}</span>
+                </div>
+                <div class="form-group">
+                  <label class="title-darkslateblue">Fullname</label>
+                  <span>{{user.fullname}}</span>
+                </div>
+                <div class="form-group">
+                  <label class="title-darkslateblue">Phone number</label>
+                  <span>{{user.phone}}</span>
+                </div>
+                <div class="form-group">
+                  <label class="title-darkslateblue">Email</label>
+                  <span>{{user.email}}</span>
+                </div>      
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title title-darkslateblue bold">OTP</h4>
+            </div>
+            <div class="card-body">            
+              <div class="text-center button-line">
+                <button *ngIf="otp.qrcode" (click)="removeOtpClick()" class="btn btn-danger">REMOVE OTP</button>
+                <button *ngIf="otp.qrcode" (click)="toggleOtpClick()" class="btn btn-primary btn-darkslateblue-border">{{isHideOtp ? 'SHOW' : 'HIDE'}} OTP</button>
+                <button *ngIf="!otp.qrcode" (click)="createOtpClick()" class="btn btn-primary btn-darkslateblue-border">CREATE OTP</button>
+              </div>
+              <div *ngIf="!otp.qrcode || isHideOtp" class="text-center">
+                <img src="/assets/images/default.png" alt="default qrcode" class="default-image img-fluid">
+              </div>
+              <div *ngIf="!!otp.qrcode && !isHideOtp" class="text-center">
+                <qr-code [value]="otp.qrcode" [size]="250" [level]="'M'"></qr-code>
+              </div>
+  
+              <div class="app-download">
+                <p class="info">Download Google Autheticator</p>
+                <a target="_blank" href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2">
+                  <img src="/assets/images/playstore.png" alt="Google Play">
+                </a>
+                <a target="_blank" href="https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8">
+                  <img src="/assets/images/appstore.png" alt="Appstore">
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="col-12 col-sm-6">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title title-darkslateblue bold">Change Password</h4>
+            </div>
+            <div class="card-body">
+              <form class="form-horizontal" (ngSubmit)="changePassword()">
+                <div class="form-group row">
+                  <label for="old-pw" class="control-label col-12 col-sm-4 title-darkslateblue">Current Password:</label>
+                  <div class="col-12 col-sm-8">
+                    <input id="old-pw" name="old-pw" type="password" class="form-control" [(ngModel)]="updatePasswordData.current_password">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="new-pw" class="control-label col-12 col-sm-4 title-darkslateblue">New Password:</label>
+                  <div class="col-12 col-sm-8">
+                    <input id="new-pw" name="new-pw" type="password" class="form-control" [(ngModel)]="updatePasswordData.new_password">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="re-pw" class="control-label col-12 col-sm-4 title-darkslateblue">Repeat Password:</label>
+                  <div class="col-12 col-sm-8">
+                    <input id="re-pw" name="re-pw" type="password" class="form-control" [(ngModel)]="updatePasswordData.retype_password">
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <button type="submit" class="btn btn-primary pull-right btn-darkslateblue-border">SUBMIT</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>                
+      </div>
+    </div>
+  </div>
+  
+  <app-dialog [(visible)]="isShowAskPass1">
+    <div class="otp-password2">
+      <div class="dialog-header">
+        <h4 class="title">PASSWORD</h4>
+      </div>
+      <div class="dialog-body">
+        <p class="text-center">Enter your password</p>
+        <form class="form-inline justify-content-center">
+          <div class="form-group" style="margin-right: 5px;">
+            <input name="password1" type="password" [(ngModel)]="otp.password_1" class="form-control">
+          </div>
+          <button type="submit" [appLoading]="otp.isLoading" (click)="handleOTPAction()" class="btn btn-primary">SUBMIT</button>        
+        </form>
+      </div>
+    </div>
+  
+  </app-dialog>

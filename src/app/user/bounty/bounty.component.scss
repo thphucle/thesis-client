@@ -1,0 +1,27 @@
+@import '../../../variables.scss';
+
+
+#bounty-progress-bar {
+  height: 50px;
+  margin-bottom: 15px;
+  color: $darkslateblue;
+  .progress-bar {
+    background-color: $darkslateblue;
+    font-size: 20px;
+    font-weight: bolder;
+    white-space: pre;
+    color: white;
+  }
+}
+.ruler {
+  font-size: 16px;
+  font-weight: bolder;
+  color: #808080;
+}
+.card {
+  form {
+    [class*="col-"] {
+      padding: 0 15px;
+    }
+  }
+}

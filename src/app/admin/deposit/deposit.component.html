@@ -1,0 +1,105 @@
+
+<div class="token-wrap">
+    <div class="box box-primary">
+      <div class="box-header">
+        <h4 class="box-title title-darkslateblue bold">DEPOSIT</h4>    
+      </div>
+      <div class="box-body">
+        <form [formGroup]="filterForm" (ngSubmit)="filter()" class="toolbar">
+          <div class="row">
+            <div class="col-12 col-sm-6 col-md-3">
+              <div class="form-group">
+                <label for="username" class="title-darkslateblue">Username:</label>
+                <input               
+                  type="text" 
+                  class="form-control" 
+                  formControlName="username"/>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-3">
+              <div class="form-group">
+                <label class="title-darkslateblue">Currency</label>
+                <select formControlName="currency" class="form-control">
+                  <option *ngFor="let currency of currencies" [value]="currency">{{currency}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-12 col-sm-3">
+              <div class="form-group">
+                <label for="limit" class="title-darkslateblue">Page size:</label>
+                <select class="form-control" name="perpage" id="limit" formControlName="limit">
+                  <option *ngFor="let l of limitOptions" [value]="l">{{l}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-12 col-sm-3">
+              <div class="form-group">
+                <label class="title-darkslateblue"> </label>
+                <button [appLoading]="filterPromise" type="submit" class="btn btn-primary btn-fill btn-block btn-darkslateblue">Apply</button>
+              </div>
+            </div>
+          </div>          
+        </form>
+
+        <div class="summary mb-4">
+          <form class="form-inline">
+            <div class="form-group">
+              <label class="title-darkslateblue">Sum:</label>
+              <span>{{summary.sum | number: '.8'}} {{ticker}}</span>
+            </div>
+          </form>
+        </div>
+        <ngx-datatable 
+          class="material"
+          [rows]="rows"
+          [columnMode]="'force'"
+          [headerHeight]="50"
+          [footerHeight]="50"
+          [rowHeight]="'auto'"
+          [scrollbarH]="true"
+          [sortType]="'single'"
+          [externalPaging]="true" 
+          [count]="pagination.total" 
+          [offset]="pagination.page" 
+          [limit]="pagination.perpage" 
+          (page)="setPage($event)">
+  
+          <ngx-datatable-column prop="User.username" name="Username">
+            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>              
+              <a routerLink="/admin/user-management/{{row.user_id}}">{{value}}</a>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column prop="amount" name="Amount">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              <span>{{value | number: '.8'}}</span>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column prop="tx_id" name="Tx ID">
+            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+              <span class="word-break">
+                <a class="transaction-id" target="_blank" href="{{(row.currency == 'bitdeal' ? 'https://explorer.bitdeal.co.in/tx/' : 'https://blockexplorer.com/tx/') + value}}">{{value}}</a>
+              </span>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column prop="status" name="Status">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              <span class="badge" [ngClass]="{'badge-success': value == 'completed', 'badge-warning': value === 'pending'}">{{value}}</span>
+            </ng-template>
+          </ngx-datatable-column>
+           
+          <ngx-datatable-column prop="created_at" name="Created At">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+              <span>{{value | date: 'MM/dd/yyyy HH:mm:ss'}}</span>              
+            </ng-template>
+          </ngx-datatable-column>
+        </ngx-datatable>
+  
+        
+      </div>
+    </div>
+  </div>
+  
+  
+  
